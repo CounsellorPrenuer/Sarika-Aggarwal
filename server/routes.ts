@@ -57,10 +57,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/payment/intent", async (req, res) => {
     try {
-      const { amount, packageName, name, email, phone } = req.body;
+      const { packageName, name, email, phone } = req.body;
+
+      const packagePrices: Record<string, number> = {
+        "Student Guidance Package": 9999,
+        "Professional Roadmap": 12999,
+      };
+
+      const amount = packagePrices[packageName];
+      if (!amount) {
+        return res.status(400).json({ success: false, error: "Invalid package name" });
+      }
 
       const paymentData = {
-        amount: parseInt(amount),
+        amount,
         packageName,
         name,
         email,
