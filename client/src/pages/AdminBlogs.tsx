@@ -54,7 +54,7 @@ export default function AdminBlogs() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (data: InsertBlogPost) => apiRequest("/api/admin/blog", "POST", data),
+    mutationFn: (data: InsertBlogPost) => apiRequest("POST", "/api/admin/blog", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
       queryClient.invalidateQueries({ queryKey: ["/api/blogs"] });
@@ -70,7 +70,7 @@ export default function AdminBlogs() {
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<InsertBlogPost> }) =>
-      apiRequest(`/api/admin/blog/${id}`, "PUT", data),
+      apiRequest("PUT", `/api/admin/blog/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
       queryClient.invalidateQueries({ queryKey: ["/api/blogs"] });
@@ -85,7 +85,7 @@ export default function AdminBlogs() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: string) => apiRequest(`/api/admin/blog/${id}`, "DELETE"),
+    mutationFn: (id: string) => apiRequest("DELETE", `/api/admin/blog/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/blog"] });
       queryClient.invalidateQueries({ queryKey: ["/api/blogs"] });

@@ -6,10 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useToast } from "@/hooks/use-toast";
 import { 
   Eye, Calendar, MessageSquare, CreditCard, 
-  Download, LogOut, FileDown
+  Download, LogOut, FileDown, BookOpen
 } from "lucide-react";
 import type { Contact, Payment } from "@shared/schema";
 import AdminLogin from "@/components/AdminLogin";
+import { Link } from "wouter";
 
 export default function AdminDashboard() {
   const { toast } = useToast();
@@ -144,6 +145,15 @@ export default function AdminDashboard() {
               <p className="text-muted-foreground">Manage all customer data, bookings, and submissions</p>
             </div>
             <div className="flex gap-3">
+              <Link href="/admin/blogs">
+                <Button 
+                  variant="default"
+                  data-testid="button-manage-blogs"
+                >
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Manage Blogs
+                </Button>
+              </Link>
               <Button 
                 className="bg-vibrant-orange hover:bg-vibrant-orange/90 text-white"
                 onClick={exportAllData}
