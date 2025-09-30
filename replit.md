@@ -131,6 +131,10 @@ Preferred communication style: Simple, everyday language.
 - ✅ Protected all admin API routes with authentication middleware
 - ✅ Implemented session regeneration on login to prevent fixation attacks
 - ✅ Configured secure cookie settings (httpOnly, sameSite: lax)
+- ✅ Redesigned to modern single-page analytics dashboard with 9 distinct KPI metrics
+- ✅ Implemented time-window approach for distinct metrics (30-day vs all-time)
+- ✅ Added "Export All Data" functionality (JSON format)
+- ✅ Sorted data tables by recency (createdAt descending)
 
 ### Database Schema Updates
 - Added `services` table: id, name, description, price, createdAt
@@ -144,16 +148,27 @@ Preferred communication style: Simple, everyday language.
 - Login/logout functionality with proper session management
 - Protected admin routes with `requireAdmin` middleware
 
-**Data Management**
-- **Overview Tab**: Statistics dashboard showing key metrics
-- **Contact Tab**: View and delete contact form submissions
-- **Services Tab**: Full CRUD operations with dialog forms
-- **Testimonials Tab**: Full CRUD operations for client testimonials
-- **Blog Tab**: Full CRUD operations for blog posts (Draft/Published status)
-- **Payments Tab**: View all transactions with statistics and revenue tracking
+**Analytics Dashboard (Single-Page Design)**
+- **9 Distinct KPI Cards** using time-window approach for meaningful metrics:
+  1. Total Bookings: All payment attempts (all-time)
+  2. Pending: Pending payments (all-time)
+  3. Contacted: Contact form submissions in last 30 days
+  4. Completed: Successful payments in last 30 days
+  5. Contact Forms: All contact form submissions (all-time)
+  6. Lead Downloads: Placeholder (0)
+  7. Total Payments: All successful payments (all-time)
+  8. Revenue: Total revenue from successful payments
+  9. Investments: Placeholder (0)
+- **4 Data Sections** showing recent records sorted by creation date:
+  - Recent Bookings (last 5 payments)
+  - Recent Contact Forms (last 5 contacts)
+  - Recent Payments (last 5 successful payments)
+  - Recent Lead Downloads (placeholder, empty state)
+- **Visual Navigation Tabs** (non-functional, for design consistency)
 
 **Export Functionality**
-- CSV export available for all data tables
+- Individual CSV export for each data table
+- "Export All Data" button for comprehensive JSON export
 - Client-side generation with proper escaping
 - Date-stamped filenames for easy organization
 - Toast notifications for successful exports
