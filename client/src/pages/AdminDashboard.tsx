@@ -37,14 +37,28 @@ export default function AdminDashboard() {
     },
   });
 
-  const totalPayments = payments?.data?.length || 0;
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  
+  const totalBookings = payments?.data?.length || 0;
   const pendingPayments = payments?.data?.filter(p => p.status === "pending").length || 0;
-  const contactedPayments = payments?.data?.filter(p => p.status === "success").length || 0;
-  const completedPayments = payments?.data?.filter(p => p.status === "success").length || 0;
+  const contactedCount = contacts?.data?.filter(c => new Date(c.createdAt) >= thirtyDaysAgo).length || 0;
+  const completedPayments = payments?.data?.filter(p => 
+    p.status === "success" && new Date(p.createdAt) >= thirtyDaysAgo
+  ).length || 0;
   const contactForms = contacts?.data?.length || 0;
-  const leadDownloads = 0; // Not implemented yet
-  const totalRevenue = payments?.data?.reduce((sum, p) => sum + p.amount, 0) || 0;
-  const investments = 0; // Not implemented yet
+  const leadDownloads = 0;
+  const totalPaymentsCount = payments?.data?.filter(p => p.status === "success").length || 0;
+  const totalRevenue = payments?.data?.filter(p => p.status === "success").reduce((sum, p) => sum + p.amount, 0) || 0;
+  const investments = 0;
+  
+  const recentPayments = [...(payments?.data || [])].sort((a, b) => 
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  ).slice(0, 5);
+  
+  const recentContacts = [...(contacts?.data || [])].sort((a, b) => 
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  ).slice(0, 5);
 
   const exportToCSV = (data: any[], filename: string) => {
     if (!data || data.length === 0) {
@@ -174,7 +188,7 @@ export default function AdminDashboard() {
                 <CardTitle className="text-sm font-medium text-muted-foreground">Total Bookings</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold" data-testid="text-total-bookings">{totalPayments}</div>
+                <div className="text-3xl font-bold" data-testid="text-total-bookings">{totalBookings}</div>
               </CardContent>
             </Card>
 
@@ -192,7 +206,7 @@ export default function AdminDashboard() {
                 <CardTitle className="text-sm font-medium text-muted-foreground">Contacted</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-blue-600" data-testid="text-contacted">{contactedPayments}</div>
+                <div className="text-3xl font-bold text-blue-600" data-testid="text-contacted">{contactedCount}</div>
               </CardContent>
             </Card>
 
@@ -228,7 +242,7 @@ export default function AdminDashboard() {
                 <CardTitle className="text-sm font-medium text-muted-foreground">Total Payments</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-blue-600" data-testid="text-total-payments">{totalPayments}</div>
+                <div className="text-3xl font-bold text-blue-600" data-testid="text-total-payments">{totalPaymentsCount}</div>
               </CardContent>
             </Card>
 
@@ -281,7 +295,7 @@ export default function AdminDashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {payments?.data?.slice(0, 5).map((payment) => (
+                    {recentPayments.map((payment) => (
                       <TableRow key={payment.id}>
                         <TableCell className="font-mono text-xs" data-testid={`text-booking-id-${payment.id}`}>
                           {payment.razorpayOrderId?.slice(0, 12)}...
@@ -299,7 +313,7 @@ export default function AdminDashboard() {
                         <TableCell className="text-sm">{new Date(payment.createdAt).toLocaleDateString()}</TableCell>
                       </TableRow>
                     ))}
-                    {(!payments?.data || payments.data.length === 0) && (
+                    {recentPayments.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                           No bookings yet
@@ -338,14 +352,14 @@ export default function AdminDashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {contacts?.data?.slice(0, 5).map((contact) => (
+                    {recentContacts.map((contact) => (
                       <TableRow key={contact.id}>
                         <TableCell data-testid={`text-contact-name-${contact.id}`}>{contact.name}</TableCell>
                         <TableCell className="text-sm">{contact.email}</TableCell>
                         <TableCell className="text-sm">{new Date(contact.createdAt).toLocaleDateString()}</TableCell>
                       </TableRow>
                     ))}
-                    {(!contacts?.data || contacts.data.length === 0) && (
+                    {recentContacts.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
                           No contact forms yet
@@ -385,7 +399,7 @@ export default function AdminDashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {payments?.data?.slice(0, 5).map((payment) => (
+                    {recentPayments.map((payment) => (
                       <TableRow key={payment.id}>
                         <TableCell className="font-mono text-xs" data-testid={`text-payment-id-${payment.id}`}>
                           {payment.razorpayPaymentId?.slice(0, 12)}...
@@ -403,7 +417,7 @@ export default function AdminDashboard() {
                         <TableCell className="text-sm">{new Date(payment.createdAt).toLocaleDateString()}</TableCell>
                       </TableRow>
                     ))}
-                    {(!payments?.data || payments.data.length === 0) && (
+                    {recentPayments.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
                           No payments yet
