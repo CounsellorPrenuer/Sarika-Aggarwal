@@ -22,6 +22,7 @@ export default {
           teal: "hsl(175 65% 35% / <alpha-value>)",
           orange: "hsl(25 95% 55% / <alpha-value>)",
           yellow: "hsl(45 100% 60% / <alpha-value>)",
+          purple: "hsl(280 60% 55% / <alpha-value>)",
         },
         card: {
           DEFAULT: "hsl(var(--card) / <alpha-value>)",

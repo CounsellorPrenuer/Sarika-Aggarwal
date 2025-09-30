@@ -6,6 +6,7 @@ import Packages from "@/components/Packages";
 import Testimonials from "@/components/Testimonials";
 import Blog from "@/components/Blog";
 import Contact from "@/components/Contact";
+import Mentoria from "@/components/Mentoria";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <Testimonials />
       <Blog />
       <Contact />
+      <Mentoria />
       <Footer />
     </div>
   );
