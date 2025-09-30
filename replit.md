@@ -47,15 +47,19 @@ Preferred communication style: Simple, everyday language.
 - RESTful API endpoints under `/api` prefix
 - Contact form submission endpoint (`/api/contact`)
 - Payment verification endpoint (`/api/payment/verify`) for Razorpay integration
+- Blog API endpoints:
+  - Public: `/api/blogs` (all published), `/api/blogs/featured` (3 featured), `/api/blogs/:id` (single post)
+  - Admin: `/api/admin/blog` (CRUD operations with authentication)
 - JSON request/response format with validation using Zod schemas
 
 **Database Layer**
 - Drizzle ORM for type-safe database operations
 - PostgreSQL as the primary database (via Neon serverless driver)
 - Schema-first design with migrations managed through Drizzle Kit
-- Two main tables:
+- Main tables:
   - `contacts`: Stores user inquiries (name, email, phone, message)
   - `payments`: Stores payment transactions with Razorpay integration details
+  - `blog_posts`: Stores blog posts with title, excerpt, content, category, author, featured flag, status, and timestamps
 - UUID primary keys with automatic timestamp tracking
 
 **Storage Pattern**
@@ -139,7 +143,7 @@ Preferred communication style: Simple, everyday language.
 ### Database Schema Updates
 - Added `services` table: id, name, description, price, createdAt
 - Added `testimonials` table: id, clientName, testimonialText, rating, createdAt
-- Added `blog_posts` table: id, title, content, author, status, createdAt
+- Added `blog_posts` table: id, title, excerpt, content, category, author, featured, status, createdAt
 
 ### Admin Dashboard Features
 **Authentication**
@@ -173,11 +177,46 @@ Preferred communication style: Simple, everyday language.
 - Date-stamped filenames for easy organization
 - Toast notifications for successful exports
 
+### Blog System Implementation (September 30, 2025)
+- ✅ Enhanced blog_posts schema with excerpt, category, and featured fields
+- ✅ Created public blog API routes:
+  - `/api/blogs` - Returns all published blog posts
+  - `/api/blogs/featured` - Returns up to 3 featured published posts
+  - `/api/blogs/:id` - Returns single blog post by ID
+- ✅ Created admin blog API routes (with authentication):
+  - GET `/api/admin/blog` - Returns all blog posts (any status)
+  - POST `/api/admin/blog` - Creates new blog post
+  - PUT `/api/admin/blog/:id` - Updates blog post
+  - DELETE `/api/admin/blog/:id` - Deletes blog post
+- ✅ Updated landing page Blog component to fetch real featured blogs from API
+- ✅ Built `/blogs` page with search and category filtering for all published posts
+- ✅ Created `/blogs/:id` individual blog post page with full content display
+- ✅ Built `/admin/blogs` management interface with:
+  - Full CRUD operations (Create, Read, Update, Delete)
+  - Dialog-based create/edit forms with validation
+  - Featured blog toggle switch
+  - Status selection (published/draft)
+  - Proper cache invalidation after mutations
+- ✅ Added "Manage Blogs" navigation button in Admin Dashboard
+- ✅ Fixed API request argument order in blog mutations
+- ✅ Comprehensive end-to-end testing completed and passed
+- ✅ All blog pages are responsive and follow the vibrant DreamBridge design system
+
+**Blog Features:**
+- Landing page displays up to 3 featured blog posts with excerpt and category
+- "View All Blogs" button navigates to complete blog listing
+- Blog listing page includes search by title and filter by category
+- Individual blog posts show full content, author, category, and date
+- Admin can manage featured status to control landing page visibility
+- Admin can toggle between published/draft status
+- Featured blogs displayed with star badge indicator
+
 ### Current Status
 The DreamBridge portfolio website is now **fully functional** with:
 - Beautiful, vibrant UI with smooth animations and glassmorphism effects
 - Working contact form that stores inquiries in PostgreSQL database
 - Integrated Razorpay payment processing for service packages
+- Complete blog management system with public pages and admin CRUD
 - Comprehensive admin dashboard for content and data management
 - Session-based authentication protecting admin operations
 - CSV data export capabilities
