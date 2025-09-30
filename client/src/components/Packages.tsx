@@ -17,33 +17,69 @@ export default function Packages() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const handlePayment = (amount: number, packageName: string) => {
-    //todo: remove mock functionality - Replace with actual Razorpay credentials
-    const options = {
-      key: "rzp_test_XXXXXXXXXXXXXXXX", 
-      amount: amount * 100,
-      currency: "INR",
-      name: "DreamBridge",
-      description: packageName,
-      handler: function (response: any) {
-        toast({
-          title: "Payment Successful!",
-          description: `Thank you for choosing ${packageName}. We'll be in touch shortly.`,
-        });
-        console.log("Payment successful:", response);
-      },
-      prefill: {
-        name: "",
-        email: "agrawalsarika20@gmail.com",
-        contact: "+919910043394",
-      },
-      theme: {
-        color: "#f97316",
-      },
-    };
+  const handlePayment = async (amount: number, packageName: string) => {
+    try {
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "", 
+        amount: amount * 100,
+        currency: "INR",
+        name: "DreamBridge",
+        description: packageName,
+        handler: async function (response: any) {
+          try {
+            const verifyResponse = await fetch("/api/payment/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                amount,
+                packageName,
+              }),
+            });
 
-    const razorpay = new window.Razorpay(options);
-    razorpay.open();
+            const result = await verifyResponse.json();
+
+            if (result.success) {
+              toast({
+                title: "Payment Successful!",
+                description: `Thank you for choosing ${packageName}. We'll be in touch shortly.`,
+              });
+            } else {
+              toast({
+                title: "Payment Verification Failed",
+                description: "Please contact support.",
+                variant: "destructive",
+              });
+            }
+          } catch (error) {
+            toast({
+              title: "Error",
+              description: "Failed to verify payment. Please contact support.",
+              variant: "destructive",
+            });
+          }
+        },
+        prefill: {
+          name: "",
+          email: "agrawalsarika20@gmail.com",
+          contact: "+919910043394",
+        },
+        theme: {
+          color: "#f97316",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to initialize payment. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleQuoteRequest = () => {

@@ -21,7 +21,7 @@ export default function Contact() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.message) {
@@ -33,14 +33,35 @@ export default function Contact() {
       return;
     }
 
-    //todo: remove mock functionality - Implement actual form submission
-    console.log("Form submitted:", formData);
-    toast({
-      title: "Thank you!",
-      description: "Your message has been received. We'll get back to you shortly.",
-    });
-    
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast({
+          title: "Thank you!",
+          description: "Your message has been received. We'll get back to you shortly.",
+        });
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Failed to send message. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
