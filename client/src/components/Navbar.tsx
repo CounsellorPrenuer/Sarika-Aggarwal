@@ -30,45 +30,46 @@ export default function Navbar() {
           : "bg-white/80 dark:bg-background/80 backdrop-blur-md shadow-md"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          <Link href="/" className="flex items-center gap-3" data-testid="link-home">
-            <img src={logoUrl} alt="DreamBridge Logo" className="h-12 w-auto" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3" data-testid="link-home">
+            <img src={logoUrl} alt="DreamBridge Logo" className="h-10 sm:h-12 w-auto" />
           </Link>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
             <button
               onClick={() => scrollToSection("about")}
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-foreground hover:text-primary transition-colors font-medium text-sm lg:text-base"
               data-testid="button-nav-about"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("services")}
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-foreground hover:text-primary transition-colors font-medium text-sm lg:text-base"
               data-testid="button-nav-services"
             >
               Services
             </button>
             <button
               onClick={() => scrollToSection("blog")}
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-foreground hover:text-primary transition-colors font-medium text-sm lg:text-base"
               data-testid="button-nav-blog"
             >
               Blog
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-foreground hover:text-primary transition-colors font-medium text-sm lg:text-base"
               data-testid="button-nav-contact"
             >
               Contact
             </button>
             <Button
               onClick={() => scrollToSection("packages")}
-              className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow hover:shadow-lg transition-all"
+              className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow hover:shadow-lg transition-all text-sm lg:text-base"
               data-testid="button-nav-cta"
+              size="sm"
             >
               Start Your Journey
             </Button>
@@ -76,47 +77,47 @@ export default function Navbar() {
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2"
+            className="md:hidden p-2 hover-elevate transition-all rounded-lg"
             data-testid="button-mobile-menu"
           >
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMobileMenuOpen ? <X className="h-5 w-5 sm:h-6 sm:w-6" /> : <Menu className="h-5 w-5 sm:h-6 sm:w-6" />}
           </button>
         </div>
 
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
-            <div className="flex flex-col gap-4">
+          <div className="md:hidden py-4 border-t border-border animate-in slide-in-from-top duration-300">
+            <div className="flex flex-col gap-3">
               <button
                 onClick={() => scrollToSection("about")}
-                className="text-left py-2 text-foreground hover:text-primary transition-colors"
+                className="text-left py-2 px-3 text-foreground hover:text-primary transition-colors rounded-lg hover-elevate"
                 data-testid="button-mobile-about"
               >
                 About
               </button>
               <button
                 onClick={() => scrollToSection("services")}
-                className="text-left py-2 text-foreground hover:text-primary transition-colors"
+                className="text-left py-2 px-3 text-foreground hover:text-primary transition-colors rounded-lg hover-elevate"
                 data-testid="button-mobile-services"
               >
                 Services
               </button>
               <button
                 onClick={() => scrollToSection("blog")}
-                className="text-left py-2 text-foreground hover:text-primary transition-colors"
+                className="text-left py-2 px-3 text-foreground hover:text-primary transition-colors rounded-lg hover-elevate"
                 data-testid="button-mobile-blog"
               >
                 Blog
               </button>
               <button
                 onClick={() => scrollToSection("contact")}
-                className="text-left py-2 text-foreground hover:text-primary transition-colors"
+                className="text-left py-2 px-3 text-foreground hover:text-primary transition-colors rounded-lg hover-elevate"
                 data-testid="button-mobile-contact"
               >
                 Contact
               </button>
               <Button
                 onClick={() => scrollToSection("packages")}
-                className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow w-full"
+                className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow w-full mt-2"
                 data-testid="button-mobile-cta"
               >
                 Start Your Journey

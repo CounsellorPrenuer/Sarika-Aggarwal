@@ -1,7 +1,13 @@
 import { Card } from "@/components/ui/card";
 import { Compass, Users, BookOpen } from "lucide-react";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 
 export default function Services() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   const services = [
     {
       icon: Compass,
@@ -24,34 +30,53 @@ export default function Services() {
   ];
 
   return (
-    <section id="services" className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Our Services</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+    <section id="services" className="py-16 sm:py-20 lg:py-24 bg-background relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-vibrant-teal/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-vibrant-orange/5 rounded-full blur-3xl" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" ref={ref}>
+        <motion.div 
+          className="text-center mb-12 sm:mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-3 sm:mb-4">Our Services</h2>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Comprehensive support to guide you through every step of your career journey
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {services.map((service, index) => (
-            <Card
+            <motion.div
               key={index}
-              className="p-8 hover:shadow-2xl hover:scale-105 transition-all duration-300 border-card-border"
-              data-testid={`card-service-${index}`}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
             >
-              <div className="flex justify-center mb-6">
-                <div className={`p-4 bg-gradient-to-br ${service.gradient} rounded-xl`}>
-                  <service.icon className="w-10 h-10 text-white" />
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold text-foreground mb-4 text-center">
-                {service.title}
-              </h3>
-              <p className="text-muted-foreground text-center leading-relaxed">
-                {service.description}
-              </p>
-            </Card>
+              <Card
+                className="p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border-card-border group h-full"
+                data-testid={`card-service-${index}`}
+              >
+                <motion.div 
+                  className="flex justify-center mb-4 sm:mb-6"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <div className={`p-3 sm:p-4 bg-gradient-to-br ${service.gradient} rounded-xl shadow-lg relative`}>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} rounded-xl blur-md opacity-50 group-hover:opacity-75 transition-opacity`} />
+                    <service.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white relative z-10" />
+                  </div>
+                </motion.div>
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3 sm:mb-4 text-center">
+                  {service.title}
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground text-center leading-relaxed">
+                  {service.description}
+                </p>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>

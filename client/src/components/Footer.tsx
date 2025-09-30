@@ -8,50 +8,52 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-primary text-primary-foreground py-12">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-primary text-primary-foreground py-8 sm:py-12 relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-vibrant-orange via-vibrant-yellow to-vibrant-teal" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           <div>
-            <img src={logoUrl} alt="DreamBridge" className="h-16 w-auto mb-4 brightness-0 invert" />
-            <p className="text-primary-foreground/80 mb-4">
+            <img src={logoUrl} alt="DreamBridge" className="h-12 sm:h-16 w-auto mb-3 sm:mb-4 brightness-0 invert" />
+            <p className="text-sm sm:text-base text-primary-foreground/80 mb-3 sm:mb-4">
               Your Path from Aspirations to Achievements
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3 sm:gap-4">
               <a
                 href="https://www.linkedin.com/in/sarika-agrawal-713b3821a"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all hover-elevate"
                 data-testid="link-footer-linkedin"
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
               <a
                 href="https://www.instagram.com/sarika6605"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all hover-elevate"
                 data-testid="link-footer-instagram"
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
               <a
                 href="#"
-                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+                className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-all hover-elevate"
                 data-testid="link-footer-facebook"
               >
-                <Facebook className="w-5 h-5" />
+                <Facebook className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
             </div>
           </div>
 
           <div>
-            <h3 className="font-bold text-lg mb-4">Quick Links</h3>
+            <h3 className="font-bold text-base sm:text-lg mb-3 sm:mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <button
                   onClick={() => scrollToSection("about")}
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                  className="text-sm sm:text-base text-primary-foreground/80 hover:text-primary-foreground transition-colors text-left"
                   data-testid="button-footer-about"
                 >
                   About
@@ -60,7 +62,7 @@ export default function Footer() {
               <li>
                 <button
                   onClick={() => scrollToSection("services")}
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                  className="text-sm sm:text-base text-primary-foreground/80 hover:text-primary-foreground transition-colors text-left"
                   data-testid="button-footer-services"
                 >
                   Services
@@ -69,7 +71,7 @@ export default function Footer() {
               <li>
                 <button
                   onClick={() => scrollToSection("blog")}
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                  className="text-sm sm:text-base text-primary-foreground/80 hover:text-primary-foreground transition-colors text-left"
                   data-testid="button-footer-blog"
                 >
                   Blog
@@ -78,7 +80,7 @@ export default function Footer() {
               <li>
                 <button
                   onClick={() => scrollToSection("contact")}
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                  className="text-sm sm:text-base text-primary-foreground/80 hover:text-primary-foreground transition-colors text-left"
                   data-testid="button-footer-contact"
                 >
                   Contact
@@ -88,32 +90,32 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-bold text-lg mb-4">Services</h3>
+            <h3 className="font-bold text-base sm:text-lg mb-3 sm:mb-4">Services</h3>
             <ul className="space-y-2">
-              <li className="text-primary-foreground/80">Career Guidance</li>
-              <li className="text-primary-foreground/80">Workshops & Seminars</li>
-              <li className="text-primary-foreground/80">Admission Guidance</li>
+              <li className="text-sm sm:text-base text-primary-foreground/80">Career Guidance</li>
+              <li className="text-sm sm:text-base text-primary-foreground/80">Workshops & Seminars</li>
+              <li className="text-sm sm:text-base text-primary-foreground/80">Admission Guidance</li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-bold text-lg mb-4">Contact Info</h3>
+            <h3 className="font-bold text-base sm:text-lg mb-3 sm:mb-4">Contact Info</h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4" />
+                <Mail className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                 <a
                   href="mailto:agrawalsarika20@gmail.com"
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+                  className="text-xs sm:text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors break-all"
                   data-testid="link-footer-email"
                 >
                   agrawalsarika20@gmail.com
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4" />
+                <Phone className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                 <a
                   href="tel:+919910043394"
-                  className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+                  className="text-xs sm:text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                   data-testid="link-footer-phone"
                 >
                   +91 99100 43394
@@ -123,8 +125,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/20 pt-8 text-center">
-          <p className="text-primary-foreground/80">
+        <div className="border-t border-white/20 pt-6 sm:pt-8 text-center">
+          <p className="text-xs sm:text-sm text-primary-foreground/80">
             © {new Date().getFullYear()} DreamBridge. All rights reserved.
           </p>
         </div>

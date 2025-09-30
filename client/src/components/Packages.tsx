@@ -2,6 +2,9 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 
 declare global {
   interface Window {
@@ -11,6 +14,8 @@ declare global {
 
 export default function Packages() {
   const { toast } = useToast();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const handlePayment = (amount: number, packageName: string) => {
     //todo: remove mock functionality - Replace with actual Razorpay credentials
@@ -100,65 +105,84 @@ export default function Packages() {
   ];
 
   return (
-    <section id="packages" className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+    <section id="packages" className="py-16 sm:py-20 lg:py-24 bg-background relative overflow-hidden">
+      <div className="absolute top-1/2 right-0 w-96 h-96 bg-vibrant-yellow/10 rounded-full blur-3xl" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" ref={ref}>
+        <motion.div 
+          className="text-center mb-12 sm:mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-3 sm:mb-4">
             Choose Your Path to Success
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Select the package that best fits your career goals and aspirations
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {packages.map((pkg, index) => (
-            <Card
+            <motion.div
               key={index}
-              className={`p-8 flex flex-col h-full transition-all duration-300 ${
-                pkg.featured
-                  ? "border-2 border-vibrant-orange shadow-2xl scale-105 bg-gradient-to-br from-card to-vibrant-orange/5"
-                  : "border-card-border hover:shadow-xl hover:scale-105"
-              }`}
-              data-testid={`card-package-${index}`}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              {pkg.featured && (
-                <div className="text-center mb-4">
-                  <span className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow text-white px-4 py-1 rounded-full text-sm font-semibold">
-                    Most Popular
-                  </span>
-                </div>
-              )}
-              <h3 className="text-2xl font-bold text-foreground mb-2 text-center">
-                {pkg.name}
-              </h3>
-              <p className="text-3xl font-bold text-primary mb-2 text-center">
-                {pkg.price}
-              </p>
-              <p className="text-muted-foreground mb-6 text-center">
-                {pkg.description}
-              </p>
-              <ul className="space-y-3 mb-8 flex-grow">
-                {pkg.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-start gap-2">
-                    <Check className="w-5 h-5 text-vibrant-teal flex-shrink-0 mt-0.5" />
-                    <span className="text-muted-foreground">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button
-                onClick={pkg.action}
-                className={`w-full ${
+              <Card
+                className={`p-6 sm:p-8 flex flex-col h-full transition-all duration-300 ${
                   pkg.featured
-                    ? "bg-gradient-to-r from-vibrant-orange to-vibrant-yellow hover:shadow-xl"
-                    : ""
+                    ? "border-2 border-vibrant-orange shadow-2xl md:scale-105 bg-gradient-to-br from-card to-vibrant-orange/5 relative"
+                    : "border-card-border hover:shadow-xl hover:scale-105"
                 }`}
-                variant={pkg.featured ? "default" : "outline"}
-                data-testid={`button-package-${index}`}
+                data-testid={`card-package-${index}`}
               >
-                {pkg.buttonText}
-              </Button>
-            </Card>
+                {pkg.featured && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <span className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
+                      Most Popular
+                    </span>
+                  </div>
+                )}
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 text-center mt-2">
+                  {pkg.name}
+                </h3>
+                <p className="text-2xl sm:text-3xl font-bold text-primary mb-2 text-center">
+                  {pkg.price}
+                </p>
+                <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 text-center">
+                  {pkg.description}
+                </p>
+                <ul className="space-y-2 sm:space-y-3 mb-6 sm:mb-8 flex-grow">
+                  {pkg.features.map((feature, featureIndex) => (
+                    <motion.li 
+                      key={featureIndex} 
+                      className="flex items-start gap-2"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ delay: 0.6 + (index * 0.1) + (featureIndex * 0.05) }}
+                    >
+                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-vibrant-teal flex-shrink-0 mt-0.5" />
+                      <span className="text-sm sm:text-base text-muted-foreground">{feature}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+                <Button
+                  onClick={pkg.action}
+                  className={`w-full ${
+                    pkg.featured
+                      ? "bg-gradient-to-r from-vibrant-orange to-vibrant-yellow hover:shadow-xl"
+                      : ""
+                  }`}
+                  variant={pkg.featured ? "default" : "outline"}
+                  data-testid={`button-package-${index}`}
+                >
+                  {pkg.buttonText}
+                </Button>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>
