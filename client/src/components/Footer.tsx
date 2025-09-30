@@ -129,6 +129,9 @@ export default function Footer() {
           <p className="text-xs sm:text-sm text-primary-foreground/80">
             © {new Date().getFullYear()} DreamBridge. All rights reserved.
           </p>
+          <p className="text-xs sm:text-sm text-primary-foreground/80 mt-2">
+            In partnership with Mentoria for enhanced career guidance services.
+          </p>
         </div>
       </div>
     </footer>
