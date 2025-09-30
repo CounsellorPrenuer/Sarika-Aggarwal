@@ -12,6 +12,9 @@ if (process.env.NODE_ENV === "production") {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Serve static files from attached_assets directory
+app.use('/attached_assets', express.static('attached_assets'));
+
 if (process.env.NODE_ENV === "production" && !process.env.SESSION_SECRET) {
   console.warn("WARNING: SESSION_SECRET not set. Using insecure default. Set SESSION_SECRET in production!");
 }
