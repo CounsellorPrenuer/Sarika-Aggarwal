@@ -1,0 +1,149 @@
+You are an expert full-stack web developer agent. Your mission is to build a stunning, modern, and responsive portfolio website for Sarika Agrawal, a career coach and guide, for her brand DreamBridge.
+
+Primary Goal: You must replicate the sophisticated design, layout, and interactive features of the provided HTML example (Leadcrest Consulting). However, the entire website must be customized with Sarika Agrawal's unique branding, vibrant color palette, and specific services. The final website must be energetic, professional, and designed to attract new clients.
+
+1. Core Technical Stack & Setup
+Framework: React with Vite.
+
+Styling: Tailwind CSS.
+
+File Structure: Use a clean structure. Create a src/components directory for reusable components (Navbar, Hero, ServiceCard, Footer, etc.) and src/assets for images and the logo.
+
+2. Design Language & Inspiration Analysis
+Your design must be heavily influenced by the leadcrestconsulting.com example. Implement its modern UI/UX patterns:
+
+Layout & Spacing: Employ clean, responsive grids and generous whitespace to ensure a premium feel.
+
+Color Palette: The client requested a vibrant combination of blue, green, orange, and yellow. Create a professional yet energetic palette.
+
+Primary Base: Use a sophisticated blue or teal green as the primary color for backgrounds and text.
+
+Vibrant Accents: Use a bright orange and yellow as powerful accent colors for Call-to-Action (CTA) buttons, icons, links, and highlights to draw user attention.
+
+Harmony: Ensure the colors are used harmoniously. For example, use gradients that blend blue and green, with a sharp orange or yellow button that stands out.
+
+UI Elements:
+
+Replicate the Glassmorphism (backdrop-blur) and soft, layered shadow effects (shadow-lg, shadow-xl) from the example to create depth and a modern feel.
+
+Implement smooth hover animations on all interactive elements (buttons, cards, links), including scaling, translation, and color transitions.
+
+Animations: Use on-scroll fade-in and slide-in animations for a dynamic and engaging user experience.
+
+3. Branding & Core Identity
+Brand Name: DreamBridge
+
+Counselor's Name: Sarika Agrawal
+
+Tagline: Your Path from Aspirations to Achievements
+
+Logo: The logo is provided. Use the image from this Google Drive link: https://drive.google.com/file/d/1fPUBt_QifE4j9zDaSW_OtUhs_SqJfQxv/view?usp=drive_link
+
+Profile Picture: Use the image from this Google Drive link for the "About Me" section: https://drive.google.com/open?id=1iUoFPYHOaWiNVxn-K7yIBuEdgGURMzDO
+
+Typography: Use a modern and friendly font pairing, such as "Poppins" for headings and "Source Sans Pro" for body text.
+
+4. Website Structure & Content (Section by Section)
+Build the website as a single, smooth-scrolling page with clear sections.
+
+a. Navbar
+Style: Sticky, with a semi-transparent blurred background that solidifies on scroll.
+
+Content: Logo (left); Links: About, Services, Blog, Contact; CTA Button (right): "Start Your Journey" (use a vibrant orange/yellow gradient).
+
+b. Hero Section
+Layout: Full-screen, visually engaging with decorative gradient shapes using the brand's colors.
+
+Content:
+
+Main Headline: Use a headline that incorporates the brand name, like Building Bridges to Your Dream Career.
+
+Tagline: Prominently display the tagline below the headline: Your Path from Aspirations to Achievements.
+
+Sub-headline: "Expert Career Guidance, Admission Support, and Skill-building Workshops for Students and Professionals."
+
+CTA Buttons: "Explore Our Services" (Primary) and "Book a Free Consultation" (Secondary).
+
+Key Stats (Placeholder): To build credibility, include three icon-based stat boxes:
+
+10+ Years of Experience
+
+1000+ Students Guided
+
+50+ Partner Schools
+
+c. Services Section
+Headline: "Our Services"
+
+Layout: A grid of premium cards with icons, titles, and short descriptions.
+
+Content (Use the exact services provided):
+
+Career Guidance: Personalized counseling to help you discover the right career path.
+
+Workshops & Seminars: Interactive sessions for schools, colleges, and corporates.
+
+Admission Guidance: Expert support for navigating college and university admissions.
+
+d. About Me Section
+Layout: A two-column layout featuring Sarika's profile picture and her bio.
+
+Content:
+
+Image: Use her profile picture in a modern frame.
+
+Headline: Meet Sarika Agrawal
+
+Sub-headline: Your Dedicated Career Coach and Guide
+
+Bio: CRITICAL: No bio was provided. You must write a compelling, professional placeholder bio. It should reflect her brand name "DreamBridge," her role, and her services. Example:
+
+"As a dedicated Career Coach and Guide, Sarika Agrawal founded DreamBridge to help individuals navigate the often-complex journey from education to career. She is passionate about empowering her clients to bridge the gap between their aspirations and real-world achievements.
+
+With extensive experience in career counseling, admissions processes, and conducting impactful workshops, Sarika provides the tools, clarity, and confidence students and professionals need to succeed. Her personalized approach ensures that every individual receives a roadmap tailored to their unique strengths and goals."
+
+e. Packages & Payments Section
+Headline: "Choose Your Path to Success"
+
+Layout: A three-card pricing table.
+
+Content (Placeholder Packages tailored to her services):
+
+Student Guidance Package: Comprehensive career and admission guidance. Price: ₹9,999.
+
+Professional Roadmap: Career assessment and coaching for working professionals. Price: ₹12,999.
+
+Institutional Workshop: Custom workshop for a school or college. Button: "Request a Quote".
+
+Payment Integration: Each package card (except the workshop) must have a "Begin Now" button integrated with Razorpay.
+
+f. Blog & Testimonials
+Testimonials: Create a slider with 3 placeholder quotes, as none were provided.
+
+Blog: On the homepage, show a grid of the 3 "Latest Articles," linking to a full blog page. Use placeholder posts like "Top 5 Mistakes to Avoid in Your College Application" and "How to Choose a Career You'll Love."
+
+g. Contact & Footer
+Contact Section: A contact form next to her details: agrawalsarika20@gmail.com, +91 99100 43394, and social media icons.
+
+Footer: A comprehensive footer with links, logo, and social media handles for LinkedIn, Facebook, and Instagram.
+
+LinkedIn: https://www.linkedin.com/in/sarika-agrawal-713b3821a
+
+Instagram: https://www.instagram.com/sarika6605
+
+Facebook: Use the icon, but since no link is provided, make it link to #.
+
+5. Key Functionality & Integrations
+Razorpay Integration: The "Begin Now" buttons must trigger the Razorpay payment modal with the correct amount. Use Razorpay's live mode credentials that I'll give you. Show a success message upon completion.
+
+Contact Form: Implement client-side validation and show a "Thank you!" message on submission without a page reload.
+
+Responsiveness: The website must be perfectly responsive on all devices.
+
+SEO & Metadata:
+
+Title: DreamBridge - Career & Admission Guidance by Sarika Agrawal
+
+Meta Description: Your path from aspirations to achievements. DreamBridge offers expert career guidance, workshops, and admission guidance for students and professionals. Led by Sarika Agrawal.
+
+Keywords: career guidance, admission guidance, study abroad, career counseling, Sarika Agrawal, DreamBridge, student workshops, college admissions.
