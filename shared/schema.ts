@@ -14,11 +14,14 @@ export const contacts = pgTable("contacts", {
 
 export const payments = pgTable("payments", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  razorpayPaymentId: text("razorpay_payment_id").notNull().unique(),
+  razorpayPaymentId: text("razorpay_payment_id"),
   razorpayOrderId: text("razorpay_order_id"),
   razorpaySignature: text("razorpay_signature"),
   amount: integer("amount").notNull(),
   packageName: text("package_name").notNull(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
   status: text("status").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

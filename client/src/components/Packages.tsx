@@ -4,7 +4,8 @@ import { Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { PaymentDetailsModal } from "./PaymentDetailsModal";
 
 declare global {
   interface Window {
@@ -12,30 +13,67 @@ declare global {
   }
 }
 
+interface PaymentModalData {
+  amount: number;
+  packageName: string;
+}
+
 export default function Packages() {
   const { toast } = useToast();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPackage, setCurrentPackage] = useState<PaymentModalData | null>(null);
 
-  const handlePayment = async (amount: number, packageName: string) => {
+  const handleBeginPayment = (amount: number, packageName: string) => {
+    setCurrentPackage({ amount, packageName });
+    setIsModalOpen(true);
+  };
+
+  const handlePaymentDetailsSubmit = async (details: {
+    name: string;
+    email: string;
+    phone?: string;
+  }) => {
+    if (!currentPackage) return;
+
     try {
+      const intentResponse = await fetch("/api/payment/intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: currentPackage.amount,
+          packageName: currentPackage.packageName,
+          name: details.name,
+          email: details.email,
+          phone: details.phone,
+        }),
+      });
+
+      const intentResult = await intentResponse.json();
+
+      if (!intentResult.success) {
+        throw new Error("Failed to create payment intent");
+      }
+
+      const paymentId = intentResult.payment.id;
+
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "", 
-        amount: amount * 100,
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "",
+        amount: currentPackage.amount * 100,
         currency: "INR",
         name: "DreamBridge",
-        description: packageName,
+        description: currentPackage.packageName,
         handler: async function (response: any) {
           try {
             const verifyResponse = await fetch("/api/payment/verify", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
+                paymentId,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_signature: response.razorpay_signature,
-                amount,
-                packageName,
               }),
             });
 
@@ -44,7 +82,7 @@ export default function Packages() {
             if (result.success) {
               toast({
                 title: "Payment Successful!",
-                description: `Thank you for choosing ${packageName}. We'll be in touch shortly.`,
+                description: `Thank you for choosing ${currentPackage.packageName}. We'll be in touch shortly.`,
               });
             } else {
               toast({
@@ -62,9 +100,9 @@ export default function Packages() {
           }
         },
         prefill: {
-          name: "",
-          email: "agrawalsarika20@gmail.com",
-          contact: "+919910043394",
+          name: details.name,
+          email: details.email,
+          contact: details.phone || "",
         },
         theme: {
           color: "#f97316",
@@ -103,7 +141,7 @@ export default function Packages() {
         "Mock interview preparation",
         "University selection guidance",
       ],
-      action: () => handlePayment(9999, "Student Guidance Package"),
+      action: () => handleBeginPayment(9999, "Student Guidance Package"),
       buttonText: "Begin Now",
       featured: false,
     },
@@ -119,7 +157,7 @@ export default function Packages() {
         "LinkedIn profile optimization",
         "Ongoing mentorship (3 months)",
       ],
-      action: () => handlePayment(12999, "Professional Roadmap"),
+      action: () => handleBeginPayment(12999, "Professional Roadmap"),
       buttonText: "Begin Now",
       featured: true,
     },
@@ -222,6 +260,13 @@ export default function Packages() {
           ))}
         </div>
       </div>
+      <PaymentDetailsModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handlePaymentDetailsSubmit}
+        packageName={currentPackage?.packageName || ""}
+        amount={currentPackage?.amount || 0}
+      />
     </section>
   );
 }

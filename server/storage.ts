@@ -17,6 +17,8 @@ export interface IStorage {
   createPayment(payment: InsertPayment): Promise<Payment>;
   getAllPayments(): Promise<Payment[]>;
   getPaymentByRazorpayId(razorpayPaymentId: string): Promise<Payment | undefined>;
+  getPaymentById(id: string): Promise<Payment | undefined>;
+  updatePayment(id: string, payment: Partial<InsertPayment>): Promise<Payment>;
   
   createService(service: InsertService): Promise<Service>;
   getAllServices(): Promise<Service[]>;
@@ -63,6 +65,16 @@ export class DbStorage implements IStorage {
   async getPaymentByRazorpayId(razorpayPaymentId: string): Promise<Payment | undefined> {
     const [payment] = await db.select().from(payments).where(eq(payments.razorpayPaymentId, razorpayPaymentId));
     return payment;
+  }
+
+  async getPaymentById(id: string): Promise<Payment | undefined> {
+    const [payment] = await db.select().from(payments).where(eq(payments.id, id));
+    return payment;
+  }
+
+  async updatePayment(id: string, payment: Partial<InsertPayment>): Promise<Payment> {
+    const [updated] = await db.update(payments).set(payment).where(eq(payments.id, id)).returning();
+    return updated;
   }
 
   async createService(insertService: InsertService): Promise<Service> {

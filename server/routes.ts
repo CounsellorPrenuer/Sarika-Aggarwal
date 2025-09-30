@@ -55,9 +55,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/payment/intent", async (req, res) => {
+    try {
+      const { amount, packageName, name, email, phone } = req.body;
+
+      const paymentData = {
+        amount: parseInt(amount),
+        packageName,
+        name,
+        email,
+        phone: phone || null,
+        status: "pending",
+      };
+
+      const validatedData = insertPaymentSchema.parse(paymentData);
+      const payment = await storage.createPayment(validatedData);
+      res.json({ success: true, payment });
+    } catch (error: any) {
+      res.status(400).json({ success: false, error: error.message });
+    }
+  });
+
   app.post("/api/payment/verify", async (req, res) => {
     try {
-      const { razorpay_payment_id, razorpay_order_id, razorpay_signature, amount, packageName } = req.body;
+      const { paymentId, razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
 
       const keySecret = process.env.RAZORPAY_KEY_SECRET;
       if (!keySecret) {
@@ -76,16 +97,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ success: false, error: "Invalid signature" });
       }
 
-      const paymentData = {
+      const payment = await storage.updatePayment(paymentId, {
         razorpayPaymentId: razorpay_payment_id,
         razorpayOrderId: razorpay_order_id,
         razorpaySignature: razorpay_signature,
-        amount: parseInt(amount),
-        packageName,
         status: "success",
-      };
+      });
 
-      const payment = await storage.createPayment(paymentData);
       res.json({ success: true, payment });
     } catch (error: any) {
       res.status(400).json({ success: false, error: error.message });
