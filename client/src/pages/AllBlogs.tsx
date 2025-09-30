@@ -50,35 +50,46 @@ export default function AllBlogs() {
               {blogs.map((blog) => (
                 <Card 
                   key={blog.id} 
-                  className="p-6 flex flex-col h-full hover:shadow-xl transition-all duration-300 hover:scale-105 border-card-border"
+                  className="overflow-hidden flex flex-col h-full hover:shadow-xl transition-all duration-300 hover:scale-105 border-card-border group"
                   data-testid={`card-blog-${blog.id}`}
                 >
-                  <div className="flex-grow">
-                    <div className="mb-4">
-                      <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs sm:text-sm font-semibold rounded-full">
-                        {blog.category}
-                      </span>
+                  {blog.imageUrl && (
+                    <div className="w-full h-48 overflow-hidden">
+                      <img
+                        src={blog.imageUrl}
+                        alt={blog.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                     </div>
-                    <h3 className="text-xl font-bold text-foreground mb-3" data-testid={`text-blog-title-${blog.id}`}>
-                      {blog.title}
-                    </h3>
-                    <p className="text-sm sm:text-base text-muted-foreground mb-4 line-clamp-3">
-                      {blog.excerpt}
-                    </p>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                      <Calendar className="w-4 h-4" />
-                      <span>{new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                  )}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex-grow">
+                      <div className="mb-4">
+                        <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs sm:text-sm font-semibold rounded-full">
+                          {blog.category}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground mb-3" data-testid={`text-blog-title-${blog.id}`}>
+                        {blog.title}
+                      </h3>
+                      <p className="text-sm sm:text-base text-muted-foreground mb-4 line-clamp-3">
+                        {blog.excerpt}
+                      </p>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+                        <Calendar className="w-4 h-4" />
+                        <span>{new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                      </div>
                     </div>
+                    <Link href={`/blogs/${blog.id}`}>
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        data-testid={`button-read-blog-${blog.id}`}
+                      >
+                        Read Full Article
+                      </Button>
+                    </Link>
                   </div>
-                  <Link href={`/blogs/${blog.id}`}>
-                    <Button 
-                      variant="outline" 
-                      className="w-full"
-                      data-testid={`button-read-blog-${blog.id}`}
-                    >
-                      Read Full Article
-                    </Button>
-                  </Link>
                 </Card>
               ))}
             </div>

@@ -59,6 +59,16 @@ export default function BlogPost() {
                   {blog.title}
                 </h1>
 
+                {blog.imageUrl && (
+                  <div className="w-full h-64 sm:h-96 overflow-hidden rounded-lg mb-8">
+                    <img
+                      src={blog.imageUrl}
+                      alt={blog.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+
                 <div className="flex flex-wrap items-center gap-6 text-muted-foreground mb-8 pb-8 border-b border-border">
                   <div className="flex items-center gap-2">
                     <User className="w-5 h-5" />

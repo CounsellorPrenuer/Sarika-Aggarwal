@@ -40,6 +40,7 @@ export default function AdminBlogs() {
     content: "",
     category: "",
     author: "",
+    imageUrl: "",
     featured: "false",
     status: "published",
   });
@@ -104,6 +105,7 @@ export default function AdminBlogs() {
       content: "",
       category: "",
       author: "",
+      imageUrl: "",
       featured: "false",
       status: "published",
     });
@@ -119,6 +121,7 @@ export default function AdminBlogs() {
         content: blog.content,
         category: blog.category,
         author: blog.author,
+        imageUrl: blog.imageUrl || "",
         featured: blog.featured,
         status: blog.status,
       });
@@ -302,6 +305,17 @@ export default function AdminBlogs() {
                 onChange={(e) => setFormData({ ...formData, author: e.target.value })}
                 placeholder="Author name"
                 data-testid="input-blog-author"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="imageUrl">Image URL (optional)</Label>
+              <Input
+                id="imageUrl"
+                value={formData.imageUrl || ""}
+                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                placeholder="/attached_assets/stock_images/example.jpg"
+                data-testid="input-blog-image-url"
               />
             </div>
 

@@ -52,35 +52,46 @@ export default function Blog() {
                   transition={{ duration: 0.5, delay: index * 0.15 }}
                 >
                   <Card
-                    className="p-5 sm:p-6 hover:shadow-xl transition-all duration-300 border-card-border hover-elevate h-full flex flex-col group"
+                    className="overflow-hidden hover:shadow-xl transition-all duration-300 border-card-border hover-elevate h-full flex flex-col group"
                     data-testid={`card-article-${article.id}`}
                   >
-                    <div className="mb-3 sm:mb-4">
-                      <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs sm:text-sm font-semibold rounded-full">
-                        {article.category}
-                      </span>
-                    </div>
-                    <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2 sm:mb-3 line-clamp-2" data-testid={`text-blog-title-${article.id}`}>
-                      {article.title}
-                    </h3>
-                    <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4 line-clamp-3 flex-grow">
-                      {article.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between pt-3 border-t border-border">
-                      <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
-                        <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span>{new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                    {article.imageUrl && (
+                      <div className="w-full h-48 overflow-hidden">
+                        <img
+                          src={article.imageUrl}
+                          alt={article.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
                       </div>
-                      <Link href={`/blogs/${article.id}`}>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="gap-2 group-hover:gap-3 transition-all"
-                          data-testid={`button-read-article-${article.id}`}
-                        >
-                          Read <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
-                        </Button>
-                      </Link>
+                    )}
+                    <div className="p-5 sm:p-6 flex flex-col flex-grow">
+                      <div className="mb-3 sm:mb-4">
+                        <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs sm:text-sm font-semibold rounded-full">
+                          {article.category}
+                        </span>
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2 sm:mb-3 line-clamp-2" data-testid={`text-blog-title-${article.id}`}>
+                        {article.title}
+                      </h3>
+                      <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4 line-clamp-3 flex-grow">
+                        {article.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between pt-3 border-t border-border">
+                        <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                          <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
+                          <span>{new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                        </div>
+                        <Link href={`/blogs/${article.id}`}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="gap-2 group-hover:gap-3 transition-all"
+                            data-testid={`button-read-article-${article.id}`}
+                          >
+                            Read <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </Card>
                 </motion.div>
