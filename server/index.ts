@@ -1,10 +1,38 @@
 import express, { type Request, Response, NextFunction } from "express";
+import session from "express-session";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
+
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+if (process.env.NODE_ENV === "production" && !process.env.SESSION_SECRET) {
+  console.warn("WARNING: SESSION_SECRET not set. Using insecure default. Set SESSION_SECRET in production!");
+}
+
+if (process.env.NODE_ENV === "production" && !process.env.ADMIN_PASSWORD) {
+  console.warn("WARNING: ADMIN_PASSWORD not set. Using default 'admin123'. Set ADMIN_PASSWORD in production!");
+}
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "dreambridge-secret-key-change-in-production",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
+  })
+);
 
 app.use((req, res, next) => {
   const start = Date.now();

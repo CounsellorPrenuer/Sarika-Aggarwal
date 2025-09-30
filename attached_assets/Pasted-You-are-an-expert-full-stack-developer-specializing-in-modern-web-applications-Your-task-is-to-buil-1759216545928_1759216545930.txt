@@ -1,0 +1,121 @@
+You are an expert full-stack developer specializing in modern web applications. Your task is to build a fully functional and interactive admin dashboard.
+
+Use the following technology stack:
+
+Frontend: React, TypeScript, Tailwind CSS
+
+UI Components: Shadcn/UI (use components like Table, Dialog, Form, Card, Button, etc.)
+
+Icons: lucide-react
+
+Forms: Implement forms using the standard Shadcn/UI pattern with React Hook Form and Zod for validation.
+
+The dashboard should have a consistent layout and provide full data management capabilities as detailed below.
+
+1. Overall Page Structure & Header
+The page will have a light gray, muted background (bg-muted/30).
+
+The layout consists of a fixed Header and a Main Content area.
+
+Header:
+
+Left Side: A generic title like "Admin Portal" and a simple logo placeholder (e.g., a colored circle with "AP").
+
+Right Side:
+
+A welcome message: "Welcome, admin".
+
+An "Export All Data" button with an icon. This button will be responsible for exporting data from all tabs into a single Excel file.
+
+A "Logout" button with a log-out icon.
+
+2. Main Content & Tabbed Navigation
+Below the header, include a main title "Admin Dashboard" and a descriptive subtitle.
+
+Implement a full-width Shadcn/UI Tabs component with the following seven tabs. Each tab needs its specific icon.
+
+3. Detailed Tab-by-Tab Functionality
+Tab 1: Overview (Default)
+This tab is the default view.
+
+Display a grid of four Shadcn/UI Card components with key metrics: Total Services, Blog Posts, Workshops, and Total Revenue (this month).
+
+Tab 2: Contact
+Purpose: To view and manage contact form submissions.
+
+UI:
+
+A main heading like "Contact Submissions".
+
+An "Export to Excel" button specific to this tab's data.
+
+A Shadcn/UI Table to display messages with columns: Name, Email, Message, Date Received.
+
+Each row must have an Actions column with a DropdownMenu containing a "Delete" option.
+
+Tab 3: Services
+Purpose: To perform full CRUD operations on company services.
+
+UI:
+
+A main heading like "Manage Services".
+
+An "Add New Service" button. Clicking this should open a Shadcn/UI Dialog with a form.
+
+An "Export to Excel" button.
+
+A Table displaying all services with columns: Service Name, Description (truncated), Price.
+
+Each row must have an Actions column with Edit and Delete options. Clicking Edit should open the same Dialog pre-filled with the service's data.
+
+Form Fields: The "Add/Edit Service" form should include fields for Service Name (text input), Description (textarea), and Price (number input). Use Zod for validation.
+
+Tab 4: Testimonials
+Purpose: To perform full CRUD operations on student/client testimonials.
+
+UI:
+
+A main heading like "Manage Testimonials".
+
+An "Add New Testimonial" button (opens a Dialog with a form).
+
+An "Export to Excel" button.
+
+A Table with columns: Client Name, Testimonial Text (truncated), Rating (1-5).
+
+Each row must have an Actions column with Edit and Delete options.
+
+Form Fields: Client Name (text input), Testimonial Text (textarea), Rating (number input).
+
+Tab 5: Blog
+Purpose: To perform full CRUD operations on blog posts.
+
+UI:
+
+A main heading like "Manage Blog Posts".
+
+A "Create New Post" button (opens a Dialog with a form).
+
+An "Export to Excel" button.
+
+A Table with columns: Title, Author, Publication Date, Status (e.g., Draft/Published).
+
+Each row must have an Actions column with Edit and Delete options.
+
+Form Fields: Title (text input), Content (textarea, to simulate a rich text editor), Author (text input), Status (select dropdown).
+
+
+Tab 6: Payments
+Purpose: To view payment overviews and recent transactions.
+
+UI:
+
+Top Section: A grid of Card components showing key financial stats: Total Revenue, Total Payments, and Pending Payments.
+
+Bottom Section:
+
+A subheading like "Recent Payments".
+
+An "Export to Excel" button for payment data.
+
+A Table with columns: Transaction ID, Client Name, Service/Workshop, Amount, Date, Status (e.g., Completed/Pending/Failed).
