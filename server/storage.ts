@@ -34,6 +34,7 @@ export interface IStorage {
   
   createBlogPost(blogPost: InsertBlogPost): Promise<BlogPost>;
   getAllBlogPosts(): Promise<BlogPost[]>;
+  getFeaturedBlogPosts(): Promise<BlogPost[]>;
   getBlogPost(id: string): Promise<BlogPost | undefined>;
   updateBlogPost(id: string, blogPost: Partial<InsertBlogPost>): Promise<BlogPost>;
   deleteBlogPost(id: string): Promise<void>;
@@ -130,6 +131,13 @@ export class DbStorage implements IStorage {
 
   async getAllBlogPosts(): Promise<BlogPost[]> {
     return await db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
+  }
+
+  async getFeaturedBlogPosts(): Promise<BlogPost[]> {
+    return await db.select().from(blogPosts)
+      .where(eq(blogPosts.featured, "true"))
+      .orderBy(desc(blogPosts.createdAt))
+      .limit(3);
   }
 
   async getBlogPost(id: string): Promise<BlogPost | undefined> {

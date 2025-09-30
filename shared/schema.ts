@@ -55,8 +55,11 @@ export const testimonials = pgTable("testimonials", {
 export const blogPosts = pgTable("blog_posts", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   title: text("title").notNull(),
+  excerpt: text("excerpt").notNull(),
   content: text("content").notNull(),
+  category: text("category").notNull(),
   author: text("author").notNull(),
+  featured: text("featured").notNull().default("false"),
   status: text("status").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

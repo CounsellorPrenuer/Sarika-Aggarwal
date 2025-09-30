@@ -225,6 +225,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/blogs/featured", async (req, res) => {
+    try {
+      const blogPosts = await storage.getFeaturedBlogPosts();
+      res.json({ success: true, data: blogPosts });
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  app.get("/api/blogs", async (req, res) => {
+    try {
+      const blogPosts = await storage.getAllBlogPosts();
+      res.json({ success: true, data: blogPosts });
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  app.get("/api/blogs/:id", async (req, res) => {
+    try {
+      const blogPost = await storage.getBlogPost(req.params.id);
+      if (!blogPost) {
+        return res.status(404).json({ success: false, error: "Blog post not found" });
+      }
+      res.json({ success: true, data: blogPost });
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
   app.get("/api/admin/blog", requireAdmin, async (req, res) => {
     try {
       const blogPosts = await storage.getAllBlogPosts();
