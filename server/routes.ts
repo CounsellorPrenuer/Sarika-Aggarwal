@@ -60,8 +60,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { packageName, name, email, phone } = req.body;
 
       const packagePrices: Record<string, number> = {
-        "Student Guidance Package": 9999,
-        "Professional Roadmap": 12999,
+        "Ascend - Freshers": 6499,
+        "Ascend Plus - Freshers": 10599,
+        "Ascend - Middle Management": 6499,
+        "Ascend Plus - Middle Management": 10599,
       };
 
       const amount = packagePrices[packageName];
