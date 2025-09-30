@@ -47,7 +47,7 @@ export default function AdminDashboard() {
     p.status === "success" && new Date(p.createdAt) >= thirtyDaysAgo
   ).length || 0;
   const contactForms = contacts?.data?.length || 0;
-  const leadDownloads = 0;
+  const leadDownloads = (contacts?.data?.length || 0) + (payments?.data?.length || 0);
   const totalPaymentsCount = payments?.data?.filter(p => p.status === "success").length || 0;
   const totalRevenue = payments?.data?.filter(p => p.status === "success").reduce((sum, p) => sum + p.amount, 0) || 0;
   const investments = 0;
@@ -57,6 +57,13 @@ export default function AdminDashboard() {
   ).slice(0, 5);
   
   const recentContacts = [...(contacts?.data || [])].sort((a, b) => 
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  ).slice(0, 5);
+
+  const allLeads = [
+    ...(contacts?.data || []).map(c => ({ ...c, type: 'contact' as const })),
+    ...(payments?.data || []).map(p => ({ ...p, type: 'payment' as const }))
+  ].sort((a, b) => 
     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   ).slice(0, 5);
 
@@ -433,11 +440,11 @@ export default function AdminDashboard() {
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle>Recent Lead Downloads</CardTitle>
+                  <CardTitle>Recent Leads</CardTitle>
                   <Button 
                     variant="ghost" 
                     size="sm"
-                    disabled
+                    onClick={() => exportToCSV(allLeads, "all_leads")}
                     className="text-vibrant-blue hover:text-vibrant-blue/80"
                     data-testid="button-export-leads"
                   >
@@ -447,10 +454,43 @@ export default function AdminDashboard() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-                  <Download className="h-12 w-12 mb-4 opacity-20" />
-                  <p>No downloads yet</p>
-                </div>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Name/Package</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Date</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {allLeads.map((lead) => (
+                      <TableRow key={`${lead.type}-${lead.id}`}>
+                        <TableCell>
+                          <span className={`px-2 py-1 rounded-full text-xs ${
+                            lead.type === "contact" 
+                              ? "bg-purple-100 text-purple-700" 
+                              : "bg-blue-100 text-blue-700"
+                          }`}>
+                            {lead.type === "contact" ? "Contact" : "Payment"}
+                          </span>
+                        </TableCell>
+                        <TableCell className="font-medium" data-testid={`text-lead-name-${lead.id}`}>
+                          {'packageName' in lead ? lead.packageName : lead.name}
+                        </TableCell>
+                        <TableCell className="text-sm">{lead.email}</TableCell>
+                        <TableCell className="text-sm">{new Date(lead.createdAt).toLocaleDateString()}</TableCell>
+                      </TableRow>
+                    ))}
+                    {allLeads.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
+                          No leads yet
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
               </CardContent>
             </Card>
           </div>
