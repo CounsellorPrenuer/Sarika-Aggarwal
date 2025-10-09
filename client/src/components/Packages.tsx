@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
@@ -19,13 +19,18 @@ interface PaymentModalData {
   packageName: string;
 }
 
-type CategoryType = "freshers" | "middle-management" | "senior-professionals";
+type CategoryType = "8-9-students" | "10-12-students" | "college-graduates" | "working-professionals";
+
+interface Feature {
+  text: string;
+  included: boolean;
+}
 
 interface PackageData {
   name: string;
+  planName: string;
   price: string;
-  for: string;
-  features: string[];
+  features: Feature[];
   action?: () => void;
   buttonText: string;
   featured?: boolean;
@@ -37,7 +42,7 @@ export default function Packages() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPackage, setCurrentPackage] = useState<PaymentModalData | null>(null);
-  const [activeCategory, setActiveCategory] = useState<CategoryType>("freshers");
+  const [activeCategory, setActiveCategory] = useState<CategoryType>("8-9-students");
 
   const handleBeginPayment = (amount: number, packageName: string) => {
     setCurrentPackage({ amount, packageName });
@@ -142,125 +147,174 @@ export default function Packages() {
     });
   };
 
-  const categoryInfo: Record<CategoryType, { title: string; subtitle: string; heading: string; subheading: string }> = {
-    "freshers": {
-      title: "Freshers",
-      subtitle: "Strategic career foundation & professional readiness",
-      heading: "Packages for Freshers",
-      subheading: "Strategic career foundation & professional readiness"
+  const categoryInfo: Record<CategoryType, { title: string; subtitle: string }> = {
+    "8-9-students": {
+      title: "8-9 Students",
+      subtitle: "Early career exploration & skill development"
     },
-    "middle-management": {
-      title: "Middle Management",
-      subtitle: "Leadership development & strategic advancement",
-      heading: "Packages for Middle Management",
-      subheading: "Leadership development & strategic advancement"
+    "10-12-students": {
+      title: "10-12 Students",
+      subtitle: "College preparation & career planning"
     },
-    "senior-professionals": {
-      title: "Senior Professionals",
-      subtitle: "Executive transformation & C-suite positioning",
-      heading: "Packages for Senior Professionals",
-      subheading: "Executive transformation & C-suite positioning"
+    "college-graduates": {
+      title: "College Graduates",
+      subtitle: "Career launch & professional development"
+    },
+    "working-professionals": {
+      title: "Working Professionals",
+      subtitle: "Career advancement & upskilling"
     }
   };
 
   const packagesByCategory: Record<CategoryType, PackageData[]> = {
-    "freshers": [
+    "8-9-students": [
       {
-        name: "Ascend",
-        price: "₹6,499",
-        for: "For College Graduates",
+        name: "STANDARD",
+        planName: "Discover",
+        price: "₹5,500",
         features: [
-          "Psychometric assessment to measure your interests, personality and abilities",
-          "1 career coaching session for specialisation/job selection",
-          "Lifetime access to Knowledge Gateway",
-          "Pre-recorded webinars by industry experts"
+          { text: "Psychometric assessment to measure your interests", included: true },
+          { text: "1 career counselling session with Mentoria's expert career coaches", included: true },
+          { text: "Lifetime access to Knowledge Gateway", included: true },
+          { text: "Invites to live webinars by industry experts", included: true },
+          { text: "Customized reports after each session with education pathways", included: false },
+          { text: "Guidance on studying abroad", included: false },
+          { text: "CV building during internship/graduation", included: false }
         ],
-        action: () => handleBeginPayment(6499, "Ascend - Freshers"),
-        buttonText: "Choose Ascend",
+        action: () => handleBeginPayment(5500, "Discover - 8-9 Students"),
+        buttonText: "BUY NOW",
         featured: false
       },
       {
-        name: "Ascend Plus",
-        price: "₹10,599",
-        for: "For College Graduates",
+        name: "PREMIUM",
+        planName: "Discover plus+",
+        price: "₹15,000",
         features: [
-          "Psychometric assessment to measure your interests, personality and abilities",
-          "3 career coaching sessions",
-          "Lifetime access to Knowledge Gateway",
-          "Guidance on Masters' admissions in India and abroad",
-          "CV reviews during internships/graduation",
-          "Guidance until you get into the job you love",
-          "Career helpline access"
+          { text: "Psychometric assessments to measure your interests, personality and abilities", included: true },
+          { text: "8 career counselling sessions (1 every year) with Mentoria's expert career coaches until graduation", included: true },
+          { text: "Lifetime access to Knowledge Gateway", included: true },
+          { text: "Invites to live webinars by industry experts", included: true },
+          { text: "Customized reports after each session with education pathways", included: true },
+          { text: "Guidance on studying abroad", included: true },
+          { text: "CV building during internship/graduation", included: true }
         ],
-        action: () => handleBeginPayment(10599, "Ascend Plus - Freshers"),
-        buttonText: "Choose Ascend Plus",
+        action: () => handleBeginPayment(15000, "Discover plus+ - 8-9 Students"),
+        buttonText: "BUY NOW",
         featured: true
       }
     ],
-    "middle-management": [
+    "10-12-students": [
       {
-        name: "Ascend",
-        price: "₹6,499",
-        for: "For Working Professionals",
+        name: "STANDARD",
+        planName: "Achieve Online",
+        price: "₹5,999",
         features: [
-          "Psychometric assessment to measure your interests, personality and abilities",
-          "1 career coaching session focused on career transition, growth and upskilling",
-          "Lifetime access to Knowledge Gateway",
-          "Pre-recorded webinars by industry experts"
+          { text: "Psychometric assessment to measure your interests, personality and abilities", included: true },
+          { text: "1 career counselling session", included: true },
+          { text: "Lifetime access to Knowledge Gateway", included: true },
+          { text: "Pre-recorded webinars by industry experts", included: true },
+          { text: "Customized reports after each session with education pathways", included: false },
+          { text: "Guidance on studying abroad", included: false },
+          { text: "CV reviews during internship/graduation", included: false }
         ],
-        action: () => handleBeginPayment(6499, "Ascend - Middle Management"),
-        buttonText: "Choose Ascend",
+        action: () => handleBeginPayment(5999, "Achieve Online - 10-12 Students"),
+        buttonText: "BUY NOW",
         featured: false
       },
       {
-        name: "Ascend Plus",
+        name: "PREMIUM",
+        planName: "Achieve Plus+",
         price: "₹10,599",
-        for: "For Working Professionals",
         features: [
-          "Psychometric assessment to measure your interests, personality and abilities",
-          "3 career coaching sessions",
-          "Lifetime access to Knowledge Gateway",
-          "CV reviews and Interview Prep",
-          "Guidance until you get into the job you love",
-          "Career helpline access"
+          { text: "Psychometric assessment to measure your interests, personality and abilities", included: true },
+          { text: "4 career counselling sessions", included: true },
+          { text: "Lifetime access to Knowledge Gateway", included: true },
+          { text: "Attend live webinars by industry experts", included: true },
+          { text: "Customized reports after each session with education pathways", included: true },
+          { text: "Guidance on studying abroad", included: true },
+          { text: "CV reviews during internship/graduation", included: true }
         ],
-        action: () => handleBeginPayment(10599, "Ascend Plus - Middle Management"),
-        buttonText: "Choose Ascend Plus",
+        action: () => handleBeginPayment(10599, "Achieve Plus+ - 10-12 Students"),
+        buttonText: "BUY NOW",
         featured: true
       }
     ],
-    "senior-professionals": []
+    "college-graduates": [
+      {
+        name: "STANDARD",
+        planName: "Ascend Online",
+        price: "₹6,499",
+        features: [
+          { text: "Psychometric assessment to measure your interests, personality and abilities", included: true },
+          { text: "1 career counselling session", included: true },
+          { text: "Lifetime access to Knowledge Gateway", included: true },
+          { text: "Pre-recorded webinars by industry experts", included: true },
+          { text: "Customized reports after each session with information on certificate/online courses", included: false },
+          { text: "Guidance on studying abroad", included: false },
+          { text: "CV reviews for job application", included: false }
+        ],
+        action: () => handleBeginPayment(6499, "Ascend Online - College Graduates"),
+        buttonText: "BUY NOW",
+        featured: false
+      },
+      {
+        name: "PREMIUM",
+        planName: "Ascend Plus+",
+        price: "₹10,599",
+        features: [
+          { text: "Psychometric assessment to measure your interests, personality and abilities", included: true },
+          { text: "3 career counselling sessions", included: true },
+          { text: "Lifetime access to Knowledge Gateway", included: true },
+          { text: "Attend live webinars by industry experts", included: true },
+          { text: "Customized reports after each session with information on certificate/online courses", included: true },
+          { text: "Guidance on studying abroad", included: true },
+          { text: "CV reviews for job application", included: true }
+        ],
+        action: () => handleBeginPayment(10599, "Ascend Plus+ - College Graduates"),
+        buttonText: "BUY NOW",
+        featured: true
+      }
+    ],
+    "working-professionals": [
+      {
+        name: "STANDARD",
+        planName: "Ascend Online",
+        price: "₹6,499",
+        features: [
+          { text: "Psychometric assessment to measure your interests, personality and abilities", included: true },
+          { text: "1 career counselling session", included: true },
+          { text: "Lifetime access to Knowledge Gateway", included: true },
+          { text: "Pre-recorded webinars by industry experts", included: true },
+          { text: "Customized reports after each session with information on certificate/online courses", included: false },
+          { text: "Guidance on studying abroad", included: false },
+          { text: "CV reviews for job application", included: false }
+        ],
+        action: () => handleBeginPayment(6499, "Ascend Online - Working Professionals"),
+        buttonText: "BUY NOW",
+        featured: false
+      },
+      {
+        name: "PREMIUM",
+        planName: "Ascend Plus+",
+        price: "₹10,599",
+        features: [
+          { text: "Psychometric assessment to measure your interests, personality and abilities", included: true },
+          { text: "2 career counselling sessions", included: true },
+          { text: "Lifetime access to Knowledge Gateway", included: true },
+          { text: "Attend live webinars by industry experts", included: true },
+          { text: "Customized reports after each session with information on certificate/online courses", included: true },
+          { text: "Guidance on studying abroad", included: true },
+          { text: "CV reviews for job application", included: true }
+        ],
+        action: () => handleBeginPayment(10599, "Ascend Plus+ - Working Professionals"),
+        buttonText: "BUY NOW",
+        featured: true
+      }
+    ]
   };
 
   const renderPackages = (category: CategoryType) => {
     const packages = packagesByCategory[category];
-
-    if (packages.length === 0) {
-      return (
-        <div className="text-center py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
-              Packages Coming Soon
-            </h3>
-            <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-              We're preparing specialized packages for senior professionals.
-            </p>
-            <Button 
-              onClick={handleNotifyMe}
-              variant="outline"
-              size="lg"
-              data-testid="button-notify-senior"
-            >
-              Get Notified When Available
-            </Button>
-          </motion.div>
-        </div>
-      );
-    }
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
@@ -286,15 +340,17 @@ export default function Packages() {
                   </span>
                 </div>
               )}
-              <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-2 text-center mt-2">
-                {pkg.name}
-              </h3>
-              <p className="text-2xl sm:text-3xl font-bold text-primary mb-2 text-center">
-                {pkg.price}
-              </p>
-              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 text-center">
-                {pkg.for}
-              </p>
+              <div className="text-center mb-4">
+                <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-1">
+                  {pkg.name}
+                </p>
+                <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
+                  {pkg.planName}
+                </h3>
+                <p className="text-3xl sm:text-4xl font-bold text-primary">
+                  {pkg.price}
+                </p>
+              </div>
               <ul className="space-y-2 sm:space-y-3 mb-6 sm:mb-8 flex-grow">
                 {pkg.features.map((feature, featureIndex) => (
                   <motion.li 
@@ -304,8 +360,14 @@ export default function Packages() {
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ delay: 0.6 + (index * 0.1) + (featureIndex * 0.05) }}
                   >
-                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-vibrant-teal flex-shrink-0 mt-0.5" />
-                    <span className="text-sm sm:text-base text-muted-foreground">{feature}</span>
+                    {feature.included ? (
+                      <Check className="w-4 h-4 sm:w-5 sm:h-5 text-vibrant-teal flex-shrink-0 mt-0.5" />
+                    ) : (
+                      <X className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground/40 flex-shrink-0 mt-0.5" />
+                    )}
+                    <span className={`text-sm sm:text-base ${feature.included ? 'text-foreground' : 'text-muted-foreground/60'}`}>
+                      {feature.text}
+                    </span>
                   </motion.li>
                 ))}
               </ul>
@@ -348,71 +410,59 @@ export default function Packages() {
         </motion.div>
 
         <Tabs 
-          defaultValue="freshers" 
+          defaultValue="8-9-students" 
           className="w-full"
           onValueChange={(value) => setActiveCategory(value as CategoryType)}
         >
-          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-1 sm:grid-cols-3 mb-8 sm:mb-12 h-auto gap-2 sm:gap-0 bg-transparent p-0 sm:p-1 sm:bg-muted">
+          <TabsList className="grid w-full max-w-5xl mx-auto grid-cols-2 sm:grid-cols-4 mb-8 sm:mb-12 h-auto gap-2 sm:gap-0 bg-transparent p-0 sm:p-1 sm:bg-muted">
             <TabsTrigger 
-              value="freshers" 
+              value="8-9-students" 
               className="flex flex-col items-center gap-1 py-4 px-4 data-[state=active]:bg-card data-[state=active]:shadow-md"
-              data-testid="tab-freshers"
+              data-testid="tab-8-9-students"
             >
-              <span className="font-bold text-base">{categoryInfo.freshers.title}</span>
-              <span className="text-xs text-muted-foreground text-center">{categoryInfo.freshers.subtitle}</span>
+              <span className="font-bold text-base">{categoryInfo["8-9-students"].title}</span>
+              <span className="text-xs text-muted-foreground text-center hidden sm:block">{categoryInfo["8-9-students"].subtitle}</span>
             </TabsTrigger>
             <TabsTrigger 
-              value="middle-management" 
+              value="10-12-students" 
               className="flex flex-col items-center gap-1 py-4 px-4 data-[state=active]:bg-card data-[state=active]:shadow-md"
-              data-testid="tab-middle-management"
+              data-testid="tab-10-12-students"
             >
-              <span className="font-bold text-base">{categoryInfo["middle-management"].title}</span>
-              <span className="text-xs text-muted-foreground text-center">{categoryInfo["middle-management"].subtitle}</span>
+              <span className="font-bold text-base">{categoryInfo["10-12-students"].title}</span>
+              <span className="text-xs text-muted-foreground text-center hidden sm:block">{categoryInfo["10-12-students"].subtitle}</span>
             </TabsTrigger>
             <TabsTrigger 
-              value="senior-professionals" 
+              value="college-graduates" 
               className="flex flex-col items-center gap-1 py-4 px-4 data-[state=active]:bg-card data-[state=active]:shadow-md"
-              data-testid="tab-senior-professionals"
+              data-testid="tab-college-graduates"
             >
-              <span className="font-bold text-base">{categoryInfo["senior-professionals"].title}</span>
-              <span className="text-xs text-muted-foreground text-center">{categoryInfo["senior-professionals"].subtitle}</span>
+              <span className="font-bold text-base">{categoryInfo["college-graduates"].title}</span>
+              <span className="text-xs text-muted-foreground text-center hidden sm:block">{categoryInfo["college-graduates"].subtitle}</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="working-professionals" 
+              className="flex flex-col items-center gap-1 py-4 px-4 data-[state=active]:bg-card data-[state=active]:shadow-md"
+              data-testid="tab-working-professionals"
+            >
+              <span className="font-bold text-base">{categoryInfo["working-professionals"].title}</span>
+              <span className="text-xs text-muted-foreground text-center hidden sm:block">{categoryInfo["working-professionals"].subtitle}</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="freshers" className="mt-0">
-            <div className="text-center mb-8">
-              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
-                {categoryInfo.freshers.heading}
-              </h3>
-              <p className="text-sm sm:text-base text-muted-foreground">
-                {categoryInfo.freshers.subheading}
-              </p>
-            </div>
-            {renderPackages("freshers")}
+          <TabsContent value="8-9-students" className="mt-0">
+            {renderPackages("8-9-students")}
           </TabsContent>
 
-          <TabsContent value="middle-management" className="mt-0">
-            <div className="text-center mb-8">
-              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
-                {categoryInfo["middle-management"].heading}
-              </h3>
-              <p className="text-sm sm:text-base text-muted-foreground">
-                {categoryInfo["middle-management"].subheading}
-              </p>
-            </div>
-            {renderPackages("middle-management")}
+          <TabsContent value="10-12-students" className="mt-0">
+            {renderPackages("10-12-students")}
           </TabsContent>
 
-          <TabsContent value="senior-professionals" className="mt-0">
-            <div className="text-center mb-8">
-              <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
-                {categoryInfo["senior-professionals"].heading}
-              </h3>
-              <p className="text-sm sm:text-base text-muted-foreground">
-                {categoryInfo["senior-professionals"].subheading}
-              </p>
-            </div>
-            {renderPackages("senior-professionals")}
+          <TabsContent value="college-graduates" className="mt-0">
+            {renderPackages("college-graduates")}
+          </TabsContent>
+
+          <TabsContent value="working-professionals" className="mt-0">
+            {renderPackages("working-professionals")}
           </TabsContent>
         </Tabs>
       </div>
