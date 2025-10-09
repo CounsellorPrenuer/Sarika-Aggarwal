@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logoUrl from "@assets/logo_1759214045918.png";
+import logoUrl from "@assets/logo-2_1759995760996.png";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -33,7 +33,10 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <Link href="/" className="flex items-center gap-2 sm:gap-3" data-testid="link-home">
-            <img src={logoUrl} alt="DreamBridge Logo" className="h-10 sm:h-12 w-auto" />
+            <img src={logoUrl} alt="DreamBridge Logo" className="h-14 sm:h-16 w-auto" />
+            <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-vibrant-blue to-vibrant-teal bg-clip-text text-transparent">
+              DreamBridge
+            </span>
           </Link>
 
           <div className="hidden md:flex items-center gap-6 lg:gap-8">

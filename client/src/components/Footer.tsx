@@ -1,5 +1,5 @@
 import { Linkedin, Instagram, Facebook, Mail, Phone } from "lucide-react";
-import logoUrl from "@assets/logo_1759214045918.png";
+import logoUrl from "@assets/logo-2_1759995760996.png";
 
 export default function Footer() {
   const scrollToSection = (id: string) => {
@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           <div>
-            <img src={logoUrl} alt="DreamBridge" className="h-12 sm:h-16 w-auto mb-3 sm:mb-4 brightness-0 invert" />
+            <img src={logoUrl} alt="DreamBridge" className="h-16 sm:h-20 w-auto mb-3 sm:mb-4 brightness-0 invert" />
             <p className="text-sm sm:text-base text-primary-foreground/80 mb-3 sm:mb-4">
               Your Path from Aspirations to Achievements
             </p>
