@@ -14,7 +14,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           <div>
-            <img src={logoUrl} alt="DreamBridge" className="h-16 sm:h-20 w-auto mb-3 sm:mb-4 brightness-0 invert" />
+            <div className="flex items-center gap-3 mb-3 sm:mb-4">
+              <img src={logoUrl} alt="DreamBridge" className="h-16 sm:h-20 w-auto brightness-0 invert" />
+              <span className="text-2xl sm:text-3xl font-bold text-primary-foreground" data-testid="text-footer-brand">
+                DreamBridge
+              </span>
+            </div>
             <p className="text-sm sm:text-base text-primary-foreground/80 mb-3 sm:mb-4">
               Your Path from Aspirations to Achievements
             </p>
