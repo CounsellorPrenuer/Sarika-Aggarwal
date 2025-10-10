@@ -34,7 +34,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 sm:h-20">
           <Link href="/" className="flex items-center gap-2 sm:gap-3" data-testid="link-home">
             <img src={logoUrl} alt="DreamBridge Logo" className="h-14 sm:h-16 w-auto" />
-            <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-vibrant-blue to-vibrant-teal bg-clip-text text-transparent">
+            <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-vibrant-blue to-vibrant-teal bg-clip-text text-transparent">
               DreamBridge
             </span>
           </Link>
