@@ -15,7 +15,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
           <div>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
-              <img src={logoUrl} alt="DreamBridge" className="h-16 sm:h-20 w-auto brightness-0 invert" />
+              <img src={logoUrl} alt="DreamBridge" className="h-12 sm:h-16 w-auto brightness-0 invert" />
               <span className="text-lg sm:text-xl font-bold text-primary-foreground" data-testid="text-footer-brand">
                 DreamBridge
               </span>
