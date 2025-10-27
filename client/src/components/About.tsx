@@ -75,7 +75,7 @@ export default function About() {
               <motion.img
                 src={profileUrl}
                 alt="Sarika Agrawal"
-                className="relative rounded-2xl shadow-2xl w-full max-w-md border-4 border-card-border"
+                className="relative rounded-2xl shadow-2xl w-full max-w-sm border-4 border-card-border"
                 data-testid="img-profile"
                 whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 300 }}
