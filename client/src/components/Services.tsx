@@ -3,31 +3,31 @@ import { Compass, Users, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { imageUrl, type Service } from "@/lib/sanity";
+import { CMS_FALLBACK } from "@/lib/cmsFallback";
 
-export default function Services() {
+const iconGradients = [
+  "from-vibrant-blue to-vibrant-teal",
+  "from-vibrant-orange to-vibrant-yellow",
+  "from-vibrant-teal to-vibrant-blue",
+];
+const icons = [Compass, Users, BookOpen];
+
+type ServicesProps = {
+  cmsServices?: Service[];
+};
+
+export default function Services({ cmsServices }: ServicesProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  const services = [
-    {
-      icon: Compass,
-      title: "Career Guidance",
-      description: "Personalized counseling to help you discover the right career path tailored to your strengths and aspirations.",
-      gradient: "from-vibrant-blue to-vibrant-teal",
-    },
-    {
-      icon: Users,
-      title: "Workshops & Seminars",
-      description: "Interactive sessions for schools, colleges, and corporates designed to build essential skills and knowledge.",
-      gradient: "from-vibrant-orange to-vibrant-yellow",
-    },
-    {
-      icon: BookOpen,
-      title: "Admission Guidance",
-      description: "Expert support for navigating college and university admissions with confidence and clarity.",
-      gradient: "from-vibrant-teal to-vibrant-blue",
-    },
-  ];
+  const services = (cmsServices?.length ? cmsServices : CMS_FALLBACK.services).map((service, index) => ({
+    title: service.title,
+    description: service.description,
+    image: service.image,
+    gradient: iconGradients[index % iconGradients.length],
+    icon: icons[index % icons.length],
+  }));
 
   return (
     <section id="services" className="py-16 sm:py-20 lg:py-24 bg-background relative overflow-hidden">
@@ -50,15 +50,23 @@ export default function Services() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {services.map((service, index) => (
             <motion.div
-              key={index}
+              key={service.title}
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.2 }}
             >
               <Card
-                className="p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border-card-border group h-full"
+                className="p-6 sm:p-8 hover:shadow-2xl transition-all duration-300 border-card-border group h-full overflow-hidden"
                 data-testid={`card-service-${index}`}
               >
+                {service.image && (
+                  <img
+                    src={imageUrl(service.image, 600)}
+                    alt={service.image.alt || service.title}
+                    className="w-full h-40 object-cover rounded-lg mb-4"
+                    loading="lazy"
+                  />
+                )}
                 <motion.div 
                   className="flex justify-center mb-4 sm:mb-6"
                   whileHover={{ scale: 1.1, rotate: 5 }}

@@ -6,18 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { PaymentDetailsModal } from "./PaymentDetailsModal";
-
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
-
-interface PaymentModalData {
-  amount: number;
-  packageName: string;
-}
+import { useLocation } from "wouter";
 
 type CategoryType = "8-9-students" | "10-12-students" | "college-graduates" | "working-professionals";
 
@@ -40,102 +29,11 @@ export default function Packages() {
   const { toast } = useToast();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentPackage, setCurrentPackage] = useState<PaymentModalData | null>(null);
+  const [, setLocation] = useLocation();
   const [activeCategory, setActiveCategory] = useState<CategoryType>("8-9-students");
 
-  const handleBeginPayment = (amount: number, packageName: string) => {
-    setCurrentPackage({ amount, packageName });
-    setIsModalOpen(true);
-  };
-
-  const handlePaymentDetailsSubmit = async (details: {
-    name: string;
-    email: string;
-    phone?: string;
-  }) => {
-    if (!currentPackage) return;
-
-    try {
-      const intentResponse = await fetch("/api/payment/intent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          packageName: currentPackage.packageName,
-          name: details.name,
-          email: details.email,
-          phone: details.phone,
-        }),
-      });
-
-      const intentResult = await intentResponse.json();
-
-      if (!intentResult.success) {
-        throw new Error("Failed to create payment intent");
-      }
-
-      const paymentId = intentResult.payment.id;
-
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "",
-        amount: currentPackage.amount * 100,
-        currency: "INR",
-        name: "DreamBridge",
-        description: currentPackage.packageName,
-        handler: async function (response: any) {
-          try {
-            const verifyResponse = await fetch("/api/payment/verify", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                paymentId,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
-            });
-
-            const result = await verifyResponse.json();
-
-            if (result.success) {
-              toast({
-                title: "Payment Successful!",
-                description: `Thank you for choosing ${currentPackage.packageName}. We'll be in touch shortly.`,
-              });
-            } else {
-              toast({
-                title: "Payment Verification Failed",
-                description: "Please contact support.",
-                variant: "destructive",
-              });
-            }
-          } catch (error) {
-            toast({
-              title: "Error",
-              description: "Failed to verify payment. Please contact support.",
-              variant: "destructive",
-            });
-          }
-        },
-        prefill: {
-          name: details.name,
-          email: details.email,
-          contact: details.phone || "",
-        },
-        theme: {
-          color: "#f97316",
-        },
-      };
-
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to initialize payment. Please try again.",
-        variant: "destructive",
-      });
-    }
+  const handleBeginPayment = () => {
+    setLocation("/plans");
   };
 
   const handleNotifyMe = () => {
@@ -181,7 +79,7 @@ export default function Packages() {
           { text: "Guidance on studying abroad", included: false },
           { text: "CV building during internship/graduation", included: false }
         ],
-        action: () => handleBeginPayment(5500, "Discover - 8-9 Students"),
+        action: () => handleBeginPayment(),
         buttonText: "BUY NOW",
         featured: false
       },
@@ -198,7 +96,7 @@ export default function Packages() {
           { text: "Guidance on studying abroad", included: true },
           { text: "CV building during internship/graduation", included: true }
         ],
-        action: () => handleBeginPayment(15000, "Discover plus+ - 8-9 Students"),
+        action: () => handleBeginPayment(),
         buttonText: "BUY NOW",
         featured: true
       }
@@ -217,7 +115,7 @@ export default function Packages() {
           { text: "Guidance on studying abroad", included: false },
           { text: "CV reviews during internship/graduation", included: false }
         ],
-        action: () => handleBeginPayment(5999, "Achieve Online - 10-12 Students"),
+        action: () => handleBeginPayment(),
         buttonText: "BUY NOW",
         featured: false
       },
@@ -234,7 +132,7 @@ export default function Packages() {
           { text: "Guidance on studying abroad", included: true },
           { text: "CV reviews during internship/graduation", included: true }
         ],
-        action: () => handleBeginPayment(10599, "Achieve Plus+ - 10-12 Students"),
+        action: () => handleBeginPayment(),
         buttonText: "BUY NOW",
         featured: true
       }
@@ -253,7 +151,7 @@ export default function Packages() {
           { text: "Guidance on studying abroad", included: false },
           { text: "CV reviews for job application", included: false }
         ],
-        action: () => handleBeginPayment(6499, "Ascend Online - College Graduates"),
+        action: () => handleBeginPayment(),
         buttonText: "BUY NOW",
         featured: false
       },
@@ -270,7 +168,7 @@ export default function Packages() {
           { text: "Guidance on studying abroad", included: true },
           { text: "CV reviews for job application", included: true }
         ],
-        action: () => handleBeginPayment(10599, "Ascend Plus+ - College Graduates"),
+        action: () => handleBeginPayment(),
         buttonText: "BUY NOW",
         featured: true
       }
@@ -289,7 +187,7 @@ export default function Packages() {
           { text: "Guidance on studying abroad", included: false },
           { text: "CV reviews for job application", included: false }
         ],
-        action: () => handleBeginPayment(6499, "Ascend Online - Working Professionals"),
+        action: () => handleBeginPayment(),
         buttonText: "BUY NOW",
         featured: false
       },
@@ -306,7 +204,7 @@ export default function Packages() {
           { text: "Guidance on studying abroad", included: true },
           { text: "CV reviews for job application", included: true }
         ],
-        action: () => handleBeginPayment(10599, "Ascend Plus+ - Working Professionals"),
+        action: () => handleBeginPayment(),
         buttonText: "BUY NOW",
         featured: true
       }
@@ -466,13 +364,6 @@ export default function Packages() {
           </TabsContent>
         </Tabs>
       </div>
-      <PaymentDetailsModal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handlePaymentDetailsSubmit}
-        packageName={currentPackage?.packageName || ""}
-        amount={currentPackage?.amount || 0}
-      />
     </section>
   );
 }

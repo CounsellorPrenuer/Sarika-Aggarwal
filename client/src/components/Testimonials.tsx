@@ -1,35 +1,29 @@
 import { Card } from "@/components/ui/card";
 import { Star } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { Testimonial } from "@/lib/sanity";
+import { CMS_FALLBACK } from "@/lib/cmsFallback";
 
-export default function Testimonials() {
+type TestimonialsProps = {
+  cmsTestimonials?: Testimonial[];
+};
+
+export default function Testimonials({ cmsTestimonials }: TestimonialsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
-  //todo: remove mock functionality
-  const testimonials = [
-    {
-      quote: "Sarika's guidance was instrumental in helping me choose the right career path. Her personalized approach and deep understanding of my strengths made all the difference.",
-      name: "Priya Sharma",
-      role: "Engineering Student",
-      rating: 5,
-    },
-    {
-      quote: "The workshop conducted by DreamBridge for our college was incredibly insightful. Our students gained valuable skills and clarity about their future careers.",
-      name: "Dr. Rajesh Kumar",
-      role: "College Principal",
-      rating: 5,
-    },
-    {
-      quote: "As a working professional looking to transition careers, Sarika's coaching gave me the confidence and roadmap I needed to make the leap successfully.",
-      name: "Amit Patel",
-      role: "Marketing Professional",
-      rating: 5,
-    },
-  ];
+  const testimonials = useMemo(
+    () => (cmsTestimonials?.length ? cmsTestimonials : CMS_FALLBACK.testimonials).map((t) => ({
+      quote: t.quote,
+      name: t.name,
+      role: t.role,
+      rating: t.rating,
+    })),
+    [cmsTestimonials],
+  );
 
   const next = () => {
     setDirection(1);
@@ -44,22 +38,24 @@ export default function Testimonials() {
   useEffect(() => {
     const timer = setInterval(next, 5000);
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, [currentIndex, testimonials.length]);
 
   const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 300 : -300,
+    enter: (dir: number) => ({
+      x: dir > 0 ? 300 : -300,
       opacity: 0,
     }),
     center: {
       x: 0,
       opacity: 1,
     },
-    exit: (direction: number) => ({
-      x: direction > 0 ? -300 : 300,
+    exit: (dir: number) => ({
+      x: dir > 0 ? -300 : 300,
       opacity: 0,
     }),
   };
+
+  if (!testimonials.length) return null;
 
   return (
     <section className="py-16 sm:py-20 lg:py-24 bg-background relative overflow-hidden">
@@ -100,7 +96,7 @@ export default function Testimonials() {
                   ))}
                 </div>
                 <p className="text-lg sm:text-xl italic text-foreground mb-6 sm:mb-8 text-center leading-relaxed px-4">
-                  "{testimonials[currentIndex].quote}"
+                  &ldquo;{testimonials[currentIndex].quote}&rdquo;
                 </p>
                 <div className="text-center">
                   <p className="font-bold text-foreground text-base sm:text-lg">

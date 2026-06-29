@@ -8,6 +8,8 @@ import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { workerPost } from "@/lib/workerApi";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/config";
 
 export default function Contact() {
   const { toast } = useToast();
@@ -34,32 +36,26 @@ export default function Contact() {
     }
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      await workerPost("/api/forms/submit", {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
       });
-
-      const result = await response.json();
-
-      if (result.success) {
-        toast({
-          title: "Thank you!",
-          description: "Your message has been received. We'll get back to you shortly.",
-        });
-        setFormData({ name: "", email: "", phone: "", message: "" });
-      } else {
-        toast({
-          title: "Error",
-          description: result.error || "Failed to send message. Please try again.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
+        title: "Thank you!",
+        description: "Your message has been received. We'll get back to you shortly.",
+      });
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch {
+      const subject = encodeURIComponent("DreamBridge contact enquiry");
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone || "N/A"}\n\n${formData.message}`,
+      );
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+      toast({
+        title: "Opening email",
+        description: "We could not reach the server. A pre-filled email draft is ready to send.",
       });
     }
   };
@@ -181,11 +177,11 @@ export default function Contact() {
                   <div>
                     <p className="font-semibold text-foreground text-sm sm:text-base">Email</p>
                     <a
-                      href="mailto:agrawalsarika20@gmail.com"
+                      href={`mailto:${CONTACT_EMAIL}`}
                       className="text-sm sm:text-base text-muted-foreground hover:text-primary transition-colors break-all"
                       data-testid="link-email"
                     >
-                      agrawalsarika20@gmail.com
+                      {CONTACT_EMAIL}
                     </a>
                   </div>
                 </motion.div>
@@ -200,11 +196,11 @@ export default function Contact() {
                   <div>
                     <p className="font-semibold text-foreground text-sm sm:text-base">Phone</p>
                     <a
-                      href="tel:+919910043394"
+                      href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
                       className="text-sm sm:text-base text-muted-foreground hover:text-primary transition-colors"
                       data-testid="link-phone"
                     >
-                      +91 99100 43394
+                      {CONTACT_PHONE}
                     </a>
                   </div>
                 </motion.div>

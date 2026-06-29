@@ -1,0 +1,11 @@
+-- Sarika-Aggarwal D1 coupons — TEMPLATE ONLY (nothing active by default)
+--
+-- Coupons are NOT enabled until you add rows here and run:
+--   cd worker && npx wrangler d1 execute mentoria-db --remote --file="../scripts/seed-d1-coupons.sql"
+--
+-- When adding a coupon, uncomment/add a row and fill in values:
+--
+-- INSERT OR REPLACE INTO coupons (code, discount_type, value, min_amount, max_discount, active, expires_at, project_id, id, discount_value)
+-- VALUES
+--   ('SARIKA10', 'percentage', 10, 0, NULL, 1, NULL, 'sarika-aggarwal', 'sarika-aggarwal-SARIKA10', 10),
+--   ('SARIKA500', 'fixed', 500, 0, NULL, 1, NULL, 'sarika-aggarwal', 'sarika-aggarwal-SARIKA500', 500);

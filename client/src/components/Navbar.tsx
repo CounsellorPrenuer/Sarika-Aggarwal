@@ -68,14 +68,15 @@ export default function Navbar() {
             >
               Contact
             </button>
-            <Button
-              onClick={() => scrollToSection("packages")}
-              className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow hover:shadow-lg transition-all text-sm lg:text-base"
-              data-testid="button-nav-cta"
-              size="sm"
-            >
-              Start Your Journey
-            </Button>
+            <Link href="/plans">
+              <Button
+                className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow hover:shadow-lg transition-all text-sm lg:text-base"
+                data-testid="button-nav-cta"
+                size="sm"
+              >
+                View Plans
+              </Button>
+            </Link>
           </div>
 
           <button
