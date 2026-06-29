@@ -36,7 +36,7 @@ export default function CustomPlans({ plans, onBuyClick }: Props) {
             </CardHeader>
             <CardContent className="flex flex-col flex-1">
               <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-6">{plan.description}</p>
-              <Button className="w-full" onClick={() => onBuyClick(plan)}>
+              <Button type="button" className="w-full" onClick={() => onBuyClick(plan)}>
                 Buy Now
               </Button>
             </CardContent>

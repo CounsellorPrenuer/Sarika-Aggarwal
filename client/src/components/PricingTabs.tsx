@@ -66,6 +66,7 @@ export default function PricingTabs({ plans, onBuyClick }: Props) {
                     ))}
                   </div>
                   <Button
+                    type="button"
                     onClick={() => onBuyClick(plan, category.label)}
                     size="lg"
                     className="w-full"

@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { scrollToSection, usePlansNavigation } from "@/lib/navigation";
 import logoUrl from "@assets/logo-2_1759995760996.png";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { goToPlans, isHome } = usePlansNavigation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,9 +18,13 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (id: string) => {
+    scrollToSection(id);
+    setIsMobileMenuOpen(false);
+  };
+
+  const openPlans = () => {
+    goToPlans();
     setIsMobileMenuOpen(false);
   };
 
@@ -41,42 +47,55 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-6 lg:gap-8">
             <button
-              onClick={() => scrollToSection("about")}
+              onClick={() => scrollTo("about")}
               className="text-foreground hover:text-primary transition-colors font-medium text-sm lg:text-base"
               data-testid="button-nav-about"
             >
               About
             </button>
             <button
-              onClick={() => scrollToSection("services")}
+              onClick={() => scrollTo("services")}
               className="text-foreground hover:text-primary transition-colors font-medium text-sm lg:text-base"
               data-testid="button-nav-services"
             >
               Services
             </button>
             <button
-              onClick={() => scrollToSection("blog")}
+              onClick={() => scrollTo("blog")}
               className="text-foreground hover:text-primary transition-colors font-medium text-sm lg:text-base"
               data-testid="button-nav-blog"
             >
               Blog
             </button>
             <button
-              onClick={() => scrollToSection("contact")}
+              onClick={() => scrollTo("contact")}
               className="text-foreground hover:text-primary transition-colors font-medium text-sm lg:text-base"
               data-testid="button-nav-contact"
             >
               Contact
             </button>
-            <Link href="/plans">
+            {isHome ? (
               <Button
+                type="button"
+                onClick={openPlans}
                 className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow hover:shadow-lg transition-all text-sm lg:text-base"
                 data-testid="button-nav-cta"
                 size="sm"
               >
                 View Plans
               </Button>
-            </Link>
+            ) : (
+              <Link href="/plans">
+                <Button
+                  type="button"
+                  className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow hover:shadow-lg transition-all text-sm lg:text-base"
+                  data-testid="button-nav-cta"
+                  size="sm"
+                >
+                  View Plans
+                </Button>
+              </Link>
+            )}
           </div>
 
           <button
@@ -92,39 +111,40 @@ export default function Navbar() {
           <div className="md:hidden py-4 border-t border-border animate-in slide-in-from-top duration-300">
             <div className="flex flex-col gap-3">
               <button
-                onClick={() => scrollToSection("about")}
+                onClick={() => scrollTo("about")}
                 className="text-left py-2 px-3 text-foreground hover:text-primary transition-colors rounded-lg hover-elevate"
                 data-testid="button-mobile-about"
               >
                 About
               </button>
               <button
-                onClick={() => scrollToSection("services")}
+                onClick={() => scrollTo("services")}
                 className="text-left py-2 px-3 text-foreground hover:text-primary transition-colors rounded-lg hover-elevate"
                 data-testid="button-mobile-services"
               >
                 Services
               </button>
               <button
-                onClick={() => scrollToSection("blog")}
+                onClick={() => scrollTo("blog")}
                 className="text-left py-2 px-3 text-foreground hover:text-primary transition-colors rounded-lg hover-elevate"
                 data-testid="button-mobile-blog"
               >
                 Blog
               </button>
               <button
-                onClick={() => scrollToSection("contact")}
+                onClick={() => scrollTo("contact")}
                 className="text-left py-2 px-3 text-foreground hover:text-primary transition-colors rounded-lg hover-elevate"
                 data-testid="button-mobile-contact"
               >
                 Contact
               </button>
               <Button
-                onClick={() => scrollToSection("packages")}
+                type="button"
+                onClick={openPlans}
                 className="bg-gradient-to-r from-vibrant-orange to-vibrant-yellow w-full mt-2"
                 data-testid="button-mobile-cta"
               >
-                Start Your Journey
+                View Plans
               </Button>
             </div>
           </div>

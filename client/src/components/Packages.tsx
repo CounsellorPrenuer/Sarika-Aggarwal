@@ -2,8 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 import PricingTabs from "@/components/PricingTabs";
 import CustomPlans from "@/components/CustomPlans";
@@ -61,13 +59,6 @@ export default function Packages() {
           }
         />
 
-        <div className="text-center mt-12">
-          <Link href="/plans">
-            <Button variant="outline" size="lg">
-              View full pricing page
-            </Button>
-          </Link>
-        </div>
       </div>
 
       {selectedPlan && (
