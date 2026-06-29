@@ -40,7 +40,12 @@ const CMS_PROJECTS: Record<string, string> = {
   growthplatteracademy: "d6qzpqiq",
   cognita: "4p6err9r",
   tatvasaarthi: "4x24n9ke",
+  "mahalakshmi-coaching": "jaefsos8",
+  mindeverest: "7hg4temr",
   "sarika-aggarwal": "ugpnhj8o",
+  mohinichatterjee: "xybzczck",
+  "bhanumati-caousik": "gmm8mjbz",
+  drshivkumarverma: "9ee8eb4r",
 };
 
 const CMS_CONFIGURED = new Set(Object.keys(CMS_PROJECTS));

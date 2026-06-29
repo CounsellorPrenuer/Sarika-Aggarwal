@@ -4,7 +4,7 @@ compatibility_date = "2026-06-07"
 
 [vars]
 ALLOWED_ORIGINS = "https://counsellorprenuer.github.io"
-VALID_PROJECT_IDS = "ascendbeyond,deepa-lal,santosh-jaiswal,rita,mahes-nazare,mahesh-nazare,proxima,mariapawar,thinknextcareers,careercounselor,iqeducenter,pichika-mallikarjuna-rao,rajivbanerjee,eagleeyefocus,growthplatteracademy,cognita,tatvasaarthi,sarika-aggarwal"
+VALID_PROJECT_IDS = "ascendbeyond,deepa-lal,santosh-jaiswal,rita,mahes-nazare,mahesh-nazare,proxima,mariapawar,thinknextcareers,careercounselor,iqeducenter,pichika-mallikarjuna-rao,rajivbanerjee,eagleeyefocus,growthplatteracademy,cognita,tatvasaarthi,mahalakshmi-coaching,mindeverest,sarika-aggarwal,mohinichatterjee,bhanumati-caousik,drshivkumarverma"
 
 [[d1_databases]]
 binding = "DB"
